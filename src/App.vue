@@ -1,13 +1,21 @@
-<script setup> 
-  import LoginForm from './components/LoginForm.vue';
-  import UserProfile from './components/UserProfile.vue';
-
-
+<script setup>
+  import { useUserStore } from './components/User/userStore';
+  const user = useUserStore();
 </script>
 
 <template>
-  <LoginForm></LoginForm><br>
-  <UserProfile></UserProfile>
+  <nav>
+    <router-link to="/">Budgets</router-link> |
+    <div v-if="user.authenticated">
+      <router-link to="/profile">User Profile</router-link> |
+      <router-link to="/logout">Logout</router-link>
+    </div>
+    <div v-else>
+      <router-link to="/login"> Login</router-link>
+    </div>
+  </nav>
+  <br>
+  <router-view></router-view>
 </template>
 
 <style scoped>

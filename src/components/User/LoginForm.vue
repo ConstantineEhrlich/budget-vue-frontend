@@ -1,17 +1,22 @@
 <script setup>
     import{ref} from "vue";
-    import {userLogin} from "../controllers/UserController"
+    import {userLogin} from "./UserController"
+    import {useRouter} from 'vue-router';
+    import {useUserStore} from './userStore';
+    const router = useRouter();
 
     let username = ref("");
     let password = ref("");
     let formResult = ref("");
 
+    let user = useUserStore();
+
     const login = () => {
         userLogin(username.value, password.value)
-        .then(r => formResult.value = r.message)
-        .catch(err => {
-            formResult.value = "Login failed!";
-        });
+        .then(() => {
+            user.fetchProfile().then(() => router.push('/')).catch(e => console.error(e));
+        })
+        .catch(() => formResult.value = "Login failed!");
     }
 
     function clearResultMessage(){
@@ -22,7 +27,7 @@
 
 <template>
     <div id="loginForm">
-        <h1>Sing in</h1>
+        <h1>Sign in</h1>
         <form @submit.prevent="login">
             <div id="usernameInput">
                 <label for="username">Username: </label>

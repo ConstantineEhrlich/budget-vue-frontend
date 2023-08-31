@@ -1,4 +1,4 @@
-import {api} from "./api.js";
+import {api} from "../api.js";
 
 export async function userLogin(username, password){
     try{
@@ -15,7 +15,7 @@ export async function userLogin(username, password){
 
 export async function userLogout(){
     try{
-        const response = await api.get("/user/logout");
+        const response = await api.post("/user/logout");
         return response.data;
     }
     catch(error){
@@ -24,11 +24,11 @@ export async function userLogout(){
 }
 
 export async function getUserProfile(id = ""){
-    return api.get(`user/profile/${id}`)
-        .then(response => {
-            return response.data;
-        })
-        .catch(error => {
-            throw error;
-        });
+    try{
+        const response = await api.get(`user/profile/${id}`);
+        return response.data;
+    }
+    catch(error){
+        throw error;
+    }
 }
