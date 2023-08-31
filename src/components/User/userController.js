@@ -32,3 +32,18 @@ export async function getUserProfile(id = ""){
         throw error;
     }
 }
+
+export async function userSignUp(data){
+    try{
+        const response = await api.post("user/signup", {
+            id: data.id,
+            name: data.name,
+            email: data.email,
+            password: data.password
+        });
+        return response.data;
+    }
+    catch(err){
+        throw err;
+    }
+}

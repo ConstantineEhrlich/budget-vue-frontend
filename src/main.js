@@ -25,12 +25,14 @@ import BudgetListVue from './components/Budget/BudgetList.vue';
 import UserProfileVue from './components/User/UserProfile.vue';
 import LoginFormVue from './components/User/LoginForm.vue';
 import LogOutVue from './components/User/LogOut.vue';
+import SignUpFormVue from './components/User/SignUpForm.vue'
 
 
 const routes = [
     {path: '/', component: BudgetListVue},
     {path: '/profile', component: UserProfileVue},
     {path: '/login', component: LoginFormVue},
+    {path: '/signup', component: SignUpFormVue},
     {path: '/logout', component: LogOutVue}
 
 ]
