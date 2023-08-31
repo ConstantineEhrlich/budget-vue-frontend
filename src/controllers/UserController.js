@@ -19,7 +19,6 @@ export async function userLogout(){
         return response.data;
     }
     catch(error){
-
         throw error;
     }
 }
@@ -27,11 +26,9 @@ export async function userLogout(){
 export async function getUserProfile(id = ""){
     return api.get(`user/profile/${id}`)
         .then(response => {
-            console.log("Successfuly obtained user")
             return response.data;
         })
         .catch(error => {
-            console.error("Failed to load user");
             throw error;
         });
 }

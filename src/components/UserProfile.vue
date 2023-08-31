@@ -8,7 +8,7 @@
 
     watchEffect(() => {console.log("User changed!", loadedUser.value)});
 
-    getUserProfile().then(result => {
+    getUserProfile("john").then(result => {
         isLoading.value = false;
         loadedUser.value = result;
         console.log("Result:", result);
@@ -18,9 +18,11 @@
         
     }).catch(err => {
         if(err.code === "ERR_BAD_REQUEST" && err.response.status === 401){
+            isLoading = false;
             loadMessage.value = "You have to log in to view profiles!";
         }
         else{
+            isLoading = false;
             loadMessage.value = "Profile can't be loaded";
             console.error(err.message);
         }
@@ -34,8 +36,7 @@
     <div v-if="isLoading">{{ loadMessage }}</div>
     <div v-else id="userProfile">
         <h1>User Profile</h1>
-        <p><b>User id: </b>{{ loadedUser.value.id }}</p><br/>
-        <p><b>Name: </b>{{ loadedUser.value.name }}</p><br/>
-        <p><b>Email: </b>{{ loadedUser.value.email  }}</p><br/>
-    </div>
+        <p><b>User id: </b>{{ loadedUser.id }}</p><br/>
+        <p><b>Name: </b>{{ loadedUser.name }}</p><br/>
+        <p><b>Email: </b>{{ loadedUser.email  }}</p><br/>   </div>
 </template>
