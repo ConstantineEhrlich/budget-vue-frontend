@@ -1,7 +1,7 @@
 import {defineStore} from 'pinia';
 import { getUserProfile, userLogout } from './UserController';
 
-export const useUserStore = defineStore({
+export const useUserState = defineStore({
     id: 'user',
     state: () => ({
         authenticated: false,

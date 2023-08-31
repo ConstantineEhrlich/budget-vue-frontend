@@ -2,22 +2,25 @@
     import{ref} from "vue";
     import {userLogin} from "./UserController"
     import {useRouter} from 'vue-router';
-    import {useUserStore} from './userStore';
+    import {useUserState} from './userState';
     const router = useRouter();
 
     let username = ref("");
     let password = ref("");
     let formResult = ref("");
 
-    let user = useUserStore();
+    let user = useUserState();
 
-    const login = () => {
-        userLogin(username.value, password.value)
-        .then(() => {
-            user.fetchProfile().then(() => router.push('/')).catch(e => console.error(e));
-        })
-        .catch(() => formResult.value = "Login failed!");
-    }
+    const login = async () => {
+        try {
+            await userLogin(username.value, password.value);
+            await user.fetchProfile();
+            router.push('/');
+        } catch (error) {
+            formResult.value = "Login failed!";
+        }
+        };
+
 
     function clearResultMessage(){
         formResult.value = "";
@@ -56,4 +59,4 @@
     <div id="formResult">
         <p>{{ formResult }}</p>    
     </div>
-</template>
+</template>./userState

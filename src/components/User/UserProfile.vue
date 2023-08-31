@@ -1,9 +1,7 @@
 <script setup>
-    import{ref, watchEffect} from "vue";
-    import { getUserProfile } from './UserController';
-    import { useUserStore } from "./userStore";
+    import { useUserState } from "./userState";
 
-    let loadedUser = useUserStore();
+    let loadedUser = useUserState();
     console.log(loadedUser.authenticated);
 
 </script>
@@ -18,4 +16,4 @@
             <b>Email: </b>{{ loadedUser.profile.email  }}<br/>
         </p>
     </div>
-</template>
+</template>./userState

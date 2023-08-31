@@ -1,9 +1,25 @@
-import './assets/main.css'
-
+// Base
 import { createApp } from 'vue'
-import { createPinia } from 'pinia'
 import App from './App.vue'
-import {useUserStore} from './components/User/userStore';
+
+// State management
+import { createPinia } from 'pinia'
+import {useUserState} from './components/User/userState';
+
+// Vuetify
+import "@mdi/font/css/materialdesignicons.css";
+import "vuetify/styles";
+import 'vuetify/dist/vuetify.min.css';
+import { createVuetify } from 'vuetify';
+import * as components from 'vuetify/components';
+import * as directives from 'vuetify/directives';
+
+const vuetify = createVuetify({
+  components,
+  directives,
+})
+
+// Router
 import {createRouter, createWebHistory} from 'vue-router';
 import BudgetListVue from './components/Budget/BudgetList.vue';
 import UserProfileVue from './components/User/UserProfile.vue';
@@ -24,15 +40,18 @@ const router = createRouter({
     routes,
 })
 
+// Create app and add services
 const app = createApp(App);
 app.use(createPinia());
+app.use(vuetify);
 app.use(router);
 
-console.log("Init user store")
-const user = useUserStore();
+// Get User profile
+const user = useUserState();
 user.fetchProfile()
 .then(() => console.log(user.authenticated))
 .catch(error => console.error(error));
 
+// Render
 app.mount("#app");
 
