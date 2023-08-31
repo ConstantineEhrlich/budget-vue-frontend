@@ -52,10 +52,10 @@
             await setTimeout(() => router.push("/login"), 1500);
         }
         catch(e){
+            failedRegistration.errorPresent = true;
             // Bad request means there is issue in a form
             if(e.code==="ERR_BAD_REQUEST"){
                 loading.value = false;
-                failedRegistration.errorPresent = true;
                 failedRegistration.message = e.response.data.message;
                 return null;
             }
@@ -63,7 +63,6 @@
             else{
                 loading.value = false;
                 console.error(e);
-                failedRegistration.errorPresent = true;
                 failedRegistration.message = "Error occured, please try again"
                 return null;
             }

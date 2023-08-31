@@ -1,10 +1,10 @@
 import {api} from "../api.js";
 
-export async function userLogin(username, password){
+export async function userLogin(data){
     try{
         const response = await api.post("/user/login", {
-            userid: username,
-            password: password,
+            userid: data.id,
+            password: data.password,
         })
         return response.data;
     }
