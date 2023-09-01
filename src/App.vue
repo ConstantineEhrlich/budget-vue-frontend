@@ -25,7 +25,13 @@
         <!-- Home - budgets item -->
         <v-list-item @click="$router.push('/')">
           <v-icon>mdi-cash-multiple</v-icon>
-          <v-list-item-title>Budgets</v-list-item-title>
+          <v-list-item-title>All Budgets</v-list-item-title>
+        </v-list-item>
+        
+        <!-- Transactions - shows only if "budgetSelected" is true -->
+        <v-list-item v-if="user.budgetSelected" @click="$router.push('/transactions')">
+          <v-icon>mdi-piggy-bank</v-icon>
+          <v-list-item-title>Transactions</v-list-item-title>
         </v-list-item>
         
         <!-- If authenticated  -->
@@ -64,7 +70,7 @@
 
 
 
-    <v-main class="d-flex align-center justify-center">
+    <v-main class="d-flex align-start justify-start">
       <!-- Page content -->
       <router-view></router-view>
     </v-main>

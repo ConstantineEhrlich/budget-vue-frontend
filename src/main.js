@@ -7,17 +7,9 @@ import { createPinia } from 'pinia'
 import {useUserState} from './components/User/userState';
 
 // Vuetify
-import "@mdi/font/css/materialdesignicons.css";
-import "vuetify/styles";
-import 'vuetify/dist/vuetify.min.css';
-import { createVuetify } from 'vuetify';
-import * as components from 'vuetify/components';
-import * as directives from 'vuetify/directives';
+import { buildVuetify } from './plugins/vuetify';
+const vuetify = buildVuetify();
 
-const vuetify = createVuetify({
-  components,
-  directives,
-})
 
 // Router
 import {createRouter, createWebHistory} from 'vue-router';
@@ -26,6 +18,7 @@ import UserProfileVue from './components/User/UserProfile.vue';
 import LoginFormVue from './components/User/LoginForm.vue';
 import LogOutVue from './components/User/LogOut.vue';
 import SignUpFormVue from './components/User/SignUpForm.vue'
+import TransactionsVue from './components/Transaction/Transactions.vue'
 
 
 const routes = [
@@ -33,7 +26,8 @@ const routes = [
     {path: '/profile', component: UserProfileVue},
     {path: '/login', component: LoginFormVue},
     {path: '/signup', component: SignUpFormVue},
-    {path: '/logout', component: LogOutVue}
+    {path: '/logout', component: LogOutVue},
+    {path: "/transactions", component: TransactionsVue}
 
 ]
 

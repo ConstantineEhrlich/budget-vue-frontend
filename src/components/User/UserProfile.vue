@@ -2,18 +2,30 @@
     import { useUserState } from "./userState";
 
     let loadedUser = useUserState();
-    console.log(loadedUser.authenticated);
 
 </script>
 
 
 <template>
-    <div v-if="loadedUser.authenticated" id="userProfile">
-        <h1>User Profile</h1>
-        <p>
-            <b>User id: </b>{{ loadedUser.profile.id }}<br/>
-            <b>Name: </b>{{ loadedUser.profile.name }}<br/>
-            <b>Email: </b>{{ loadedUser.profile.email  }}<br/>
-        </p>
-    </div>
+    <v-card title="User Profile" style="width:600px;">
+        <v-card-text>
+            <v-list>
+                <v-list-item>
+                    <v-icon>mdi-identifier</v-icon>
+                    <v-list-item-title>{{ loadedUser.profile.id }}</v-list-item-title>
+                    <v-list-item-subtitle>User ID</v-list-item-subtitle>
+                </v-list-item>
+                <v-list-item>
+                    <v-icon>mdi-passport</v-icon>
+                    <v-list-item-title>{{ loadedUser.profile.name }}</v-list-item-title>
+                    <v-list-item-subtitle>Full Name</v-list-item-subtitle>
+                </v-list-item>
+                <v-list-item>
+                    <v-icon>mdi-email</v-icon>
+                    <v-list-item-title>{{ loadedUser.profile.email }}</v-list-item-title>
+                    <v-list-item-subtitle>Email</v-list-item-subtitle>
+                </v-list-item>
+            </v-list>
+        </v-card-text>
+    </v-card>
 </template>./userState

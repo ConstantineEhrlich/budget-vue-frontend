@@ -1,8 +1,43 @@
 <script setup>
+    import { getAllBudgets } from './budgetController';
+    import { useUserState } from '../User/userState';
+    import { useRouter } from 'vue-router';
+    import {ref} from "vue";
+    const user = useUserState();
+    const budgets = ref([]);
+    const router = useRouter();
+    getAllBudgets().then(r => budgets.value = r);
+
+    const selectBudget = (budgetId) => {
+        user.setSavedBudget(budgetId);
+        router.push("/transactions");
+    };
+
 
 </script>
 
 <template>
-    <h1>Budgets</h1>
-    <p>Here is going to be the content!</p>
+    <v-container>
+        <v-row>
+            <v-col v-for="budget in budgets" :key="budget.id" cols="12" md="4" xs="1">
+                <v-card :title="budget.slug" @click="selectBudget(budget.id)">
+                    <v-card-text>
+                        <h2>{{ budget.description }}</h2><br>
+                        <p>
+                            <b>Categories:</b> {{ budget.categories.map(cat => cat.id).join(", ") }}.
+                        </p>
+                        <v-list density="compact">
+                            <h4>Owners:</h4>
+                            <v-list-item v-for="owner in budget.owners" :key="owner.id">
+                                <b>{{ owner.name }}</b> {{ owner.email }}
+                            </v-list-item>
+                        </v-list>
+                    </v-card-text>
+                </v-card>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
+
+<style scoped>
+</style>

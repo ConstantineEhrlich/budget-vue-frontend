@@ -3,6 +3,7 @@ import {api} from "../api.js";
 export async function getBudget(id){
     try{
         const response = await api.get(`budgets/${id}`);
+        return response.data;
     }
     catch(error){
         throw error;
@@ -10,9 +11,10 @@ export async function getBudget(id){
 }
 
 
-export async function getBudgets(){
+export async function getAllBudgets(){
     try{
-
+        const response = await api.get("budgets/");
+        return response.data;
     }
     catch(error){
         throw error;
