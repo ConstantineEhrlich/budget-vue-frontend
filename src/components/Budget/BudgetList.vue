@@ -9,7 +9,7 @@
     getAllBudgets().then(r => budgets.value = r);
 
     const selectBudget = (budgetId) => {
-        user.setSavedBudget(budgetId);
+        user.saveBudget(budgetId);
         router.push("/transactions");
     };
 
@@ -22,7 +22,7 @@
             <v-col v-for="budget in budgets" :key="budget.id" cols="12" md="4" xs="1">
                 <v-card :title="budget.slug" @click="selectBudget(budget.id)">
                     <v-card-text>
-                        <h2>{{ budget.description }}</h2><br>
+                        <h2>{{ budget.description }}</h2>
                         <p>
                             <b>Categories:</b> {{ budget.categories.map(cat => cat.id).join(", ") }}.
                         </p>

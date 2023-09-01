@@ -10,6 +10,16 @@ export async function getBudget(id){
     }
 }
 
+export async function isOwner(userId, budgetId){
+    try{
+        const budget = await getBudget(budgetId);
+        return budget.owners.map(o => o.id).includes(userId);
+    }
+    catch(err){
+        throw err;
+    }
+}
+
 
 export async function getAllBudgets(){
     try{

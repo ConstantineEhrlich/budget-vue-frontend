@@ -6,7 +6,6 @@ export const useUserState = defineStore({
     state: () => ({
         authenticated: false,
         profile: null,
-        budgetSelected: false,
         budgetId: null,
         }),
     actions: {
@@ -16,13 +15,13 @@ export const useUserState = defineStore({
         },
 
         async fetchProfile(){
-            // This method is called when app is initialized
-            this.budgetId = this.getSavedBudget();
+            // Before fetchning the profile, load saved budget
+            this.budgetId = this.loadBudget();
+
             // Try to fetch user profile
             try{
                 let serverProfile = await getUserProfile();
                 this.setProfile(serverProfile);
-                this.budgetId = this.getSavedBudget;
             }
             // Unauthorized
             catch(error){
@@ -36,20 +35,13 @@ export const useUserState = defineStore({
             this.authenticated = false;
         },
 
-        setSavedBudget(id){
+        saveBudget(id){
             this.budgetId = id;
             localStorage.setItem('budgetId', this.budgetId);
         },
 
-        getSavedBudget(){
-            let budgetId = localStorage.getItem('budgetId');
-            if(budgetId){
-                this.budgetSelected = true;
-                this.budgetId = budgetId;
-            }
-            else{
-                this.budgetSelected = false;
-            }
+        loadBudget(){
+            return localStorage.getItem('budgetId');
         }
         
     },
