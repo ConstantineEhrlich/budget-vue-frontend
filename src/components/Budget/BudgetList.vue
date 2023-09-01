@@ -8,8 +8,8 @@
     const router = useRouter();
     getAllBudgets().then(r => budgets.value = r).catch(e => console.error(e));
 
-    const selectBudget = (budgetId) => {
-        user.saveBudget(budgetId);
+    const selectBudget = (budget) => {
+        user.saveBudget(budget);
         router.push("/transactions");
     };
 
@@ -20,7 +20,7 @@
     <v-container>
         <v-row>
             <v-col v-for="budget in budgets" :key="budget.id" cols="12" md="4" xs="1">
-                <v-card :title="budget.slug" @click="selectBudget(budget.id)">
+                <v-card :title="budget.slug" @click="selectBudget(budget)">
                     <v-card-text>
                         <h2>{{ budget.description }}</h2>
                         <p>

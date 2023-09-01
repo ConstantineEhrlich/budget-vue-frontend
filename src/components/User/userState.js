@@ -1,11 +1,14 @@
 import {defineStore} from 'pinia';
 import { getUserProfile, userLogout } from './userController';
+import { getBudget } from '../Budget/budgetController';
 
 export const useUserState = defineStore({
     id: 'user',
     state: () => ({
         authenticated: false,
+        isOwner: false,
         profile: null,
+        budget: null,
         budgetId: null,
         }),
     actions: {
@@ -15,13 +18,18 @@ export const useUserState = defineStore({
         },
 
         async fetchProfile(){
-            // Before fetchning the profile, load saved budget
-            this.budgetId = this.loadBudget();
-
             // Try to fetch user profile
             try{
                 let serverProfile = await getUserProfile();
                 this.setProfile(serverProfile);
+                
+                // Try to load saved budget
+                if(this.storedBudgetPresent()){
+                    const bdg = await getBudget(this.budgetId);
+                    this.budget = bdg;
+                    this.isOwner = this.checkOwner();
+                    
+                }
             }
             // Unauthorized
             catch(error){
@@ -36,13 +44,20 @@ export const useUserState = defineStore({
             this.authenticated = false;
         },
 
-        saveBudget(id){
-            this.budgetId = id;
+        saveBudget(budget){
+            this.budget = budget;
+            this.budgetId = budget.id;
+            this.isOwner = this.checkOwner();
             localStorage.setItem('budgetId', this.budgetId);
         },
 
-        loadBudget(){
-            return localStorage.getItem('budgetId');
+        storedBudgetPresent(){
+            this.budgetId =  localStorage.getItem('budgetId');
+            return this.budgetId != null;
+        },
+
+        checkOwner(){
+            return this.budget.owners.map(o => o.id).includes(this.profile.id);
         }
         
     },

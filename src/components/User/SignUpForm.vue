@@ -2,6 +2,7 @@
     import {ref, reactive } from "vue";
     import {userSignUp} from "./userController";
     import { useRouter } from "vue-router";
+    import { rules } from "../validationRules";
     const router = useRouter();
 
     const formdata = ref({
@@ -9,25 +10,8 @@
         name: "",
         email: "",
         password: "",
-    })
+    });
 
-    // Validation rules
-    const rules = {
-        // Required field
-        required: value => !!value || 'Required field',
-
-        // Login regexp - allow only a-z, A-Z, 0-9
-        loginLiterals: value => /^[a-zA-Z0-9]*$/.test(value) || 'Only latin letters and digits, no special characters',
-
-        // No longer than 16 characters
-        loginLength: value => value.length <= 16 || 'Up to 16 characters long',
-
-        // No longer than 60 characters
-        descLength: value => value.length <= 60 || 'Up to 60 characters long',
-
-        // Email regexp
-        email: value => /.+@.+\..+/.test(value) || 'Invalid email',
-    };
 
     // Form submit status
     let loading=ref(false);
