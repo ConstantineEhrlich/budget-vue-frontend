@@ -10,9 +10,12 @@
     const user = useUserState();
 
     let userIsOwner = ref(false);
-    isOwner(user.profile.id, user.budgetId)
+    if(user.profile != null){
+        isOwner(user.profile.id, user.budgetId)
         .then(r => userIsOwner.value === r)
         .catch(e => console.error(e));
+    }
+    
 
     // When app is launched first time, the budget is not selected
     // If the user tries to reach '/transactions', redirect to '/'

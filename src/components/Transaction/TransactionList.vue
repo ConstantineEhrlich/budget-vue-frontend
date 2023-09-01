@@ -7,9 +7,6 @@
 
     const user = useUserState();
 
-    console.log(user.profile.id);
-    console.log(user.budgetId);
-
     let itemsPerPage = ref(10);
 
     const headers = [
@@ -34,7 +31,7 @@
         });
         loadFinished.value = true;
     })
-    .catch(e => console.error(e));
+    .catch(e => {console.log("error here");console.error(e);});
 
 
 
