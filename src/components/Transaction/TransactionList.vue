@@ -1,8 +1,9 @@
 <script setup>
-    import { useUserState } from "../User/userState";
-    import {getTransactions} from "../Transaction/transactionController";
     import { ref } from "vue";
     import { getBudget } from "../Budget/budgetController";
+    import { getTransactions } from "../Transaction/transactionController";
+    import { useUserState } from "../User/userState";
+    import { transTypes } from "../Transaction/transactionController";
 
     let loadFinished = ref(false);
 
@@ -12,7 +13,7 @@
 
     const headers = [
         {title: 'Period', key: 'period', align:'start', sortable: true},
-        {title: 'Date', key: 'recordedAt', align: 'start', sortable: true},
+        {title: 'Date', key: 'recordedAt', align: 'start', sortable: false},
         {title: 'Transaction type', key:'transactionType', align: 'start', sortable: true},
         {title: 'Category', key:'category', align:'start', sortable:true},
         {title: 'Owner', key:'owner', align: 'start', sortable:true},
@@ -21,11 +22,7 @@
 
     let data = [];
 
-    const transTypes = new Map([
-        [5, "Income"],
-        [10, "Expense"],
-        [15, "Forecast"]
-    ]);
+    
 
     const dateRender = {
         month: 'long', 
