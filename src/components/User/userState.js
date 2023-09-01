@@ -32,6 +32,7 @@ export const useUserState = defineStore({
         async logout(){
             await userLogout();
             this.profile = null;
+            this.budgetId = null;
             this.authenticated = false;
         },
 

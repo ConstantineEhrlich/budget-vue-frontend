@@ -6,7 +6,7 @@
     const user = useUserState();
     const budgets = ref([]);
     const router = useRouter();
-    getAllBudgets().then(r => budgets.value = r);
+    getAllBudgets().then(r => budgets.value = r).catch(e => console.error(e));
 
     const selectBudget = (budgetId) => {
         user.saveBudget(budgetId);
