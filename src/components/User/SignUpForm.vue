@@ -1,6 +1,6 @@
 <script setup>
     import {ref, reactive } from "vue";
-    import {userSignUp} from "./UserController";
+    import {userSignUp} from "./userController";
     import { useRouter } from "vue-router";
     const router = useRouter();
 
