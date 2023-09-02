@@ -5,9 +5,14 @@
     import { rules } from "../validationRules";
     import {transTypes} from "../Transaction/transactionController";
     import {addCategory} from "./categoryController";
+    import { defineEmits } from "vue";
+
     const user = useUserState();
     const router = useRouter();
     const form = ref(null);
+
+    // emit allows binding event to the component
+    const emit = defineEmits(["category-added"]);
 
     const formData = reactive({
         id: "",
@@ -58,7 +63,7 @@
             console.log(user.budgetId);
             console.log(payload);
             await addCategory(user.budgetId, payload);
-
+            emit("category-added");
         }
         catch(e){
             if (e.code === "ERR_BAD_REQUEST") {

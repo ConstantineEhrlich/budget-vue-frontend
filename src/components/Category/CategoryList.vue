@@ -26,10 +26,22 @@
             console.error(e);
         }
     }
+
+    async function refreshCategories(){
+        loadFinished.value = false;
+        addCatDialog.value = false;
+        await user.fetchBudget();
+        loadFinished.value = true;
+    }
+
 </script>
 
 <template>
-    <v-dialog v-model="addCatDialog" max-width="400px"><AddCategory></AddCategory></v-dialog>
+    <v-dialog v-model="addCatDialog" max-width="400px">
+        <AddCategory @category-added="refreshCategories"></AddCategory>
+    </v-dialog>
+
+
     <div style="margin: 10px;" v-if="loadFinished">
         <h1>Categories</h1>
         <div class="button-container"><v-btn @click="addCatDialog = true">Add category</v-btn></div>
