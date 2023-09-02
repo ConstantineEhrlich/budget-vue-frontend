@@ -3,7 +3,13 @@
     import { getBudget } from "../Budget/budgetController";
     import { getTransactions } from "../Transaction/transactionController";
     import { useUserState } from "../User/userState";
-    import { transTypes } from "../Transaction/transactionController";
+
+    const transTypes = new Map([
+        [5, "Income"],
+        [10, "Expense"],
+        [15, "Forecast"]
+    ]);
+
 
     let loadFinished = ref(false);
 
@@ -56,9 +62,6 @@
         }
     }
     getTableData().then(() => loadFinished.value = true);
-
-
-
 
 
 </script>

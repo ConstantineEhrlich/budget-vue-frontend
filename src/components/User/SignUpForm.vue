@@ -4,7 +4,7 @@
     import { useRouter } from "vue-router";
     import { rules } from "../validationRules";
     const router = useRouter();
-
+    const signUpForm = ref(null);
     const formdata = ref({
         id: "",
         name: "",
@@ -24,11 +24,20 @@
     
     let failedRegistration = reactive({
         errorPresent: false,
-        errorMessage: ""
+        message: ""
     });
 
     async function submitForm(){
         loading.value = true;
+        const form = await signUpForm.value.validate();
+
+        if(!form.valid){
+            loading.value = false;
+            failedRegistration.errorPresent = true;
+            failedRegistration.message = "Please check form values!";
+            return null;
+        }
+        
         try{
             const response = await userSignUp(formdata.value);
             successRegistration.status = true;
@@ -68,7 +77,7 @@
     </v-container>
     <v-container v-else-if="!successRegistration.status">
         <h1>Registration</h1>
-        <v-form style="max-width:400px" @submit.prevent="submitForm" :disabled="loading">
+        <v-form ref="signUpForm" style="max-width:400px" @submit.prevent="submitForm" :disabled="loading">
             <v-text-field
                 v-model="formdata.id"
                 label="Login"

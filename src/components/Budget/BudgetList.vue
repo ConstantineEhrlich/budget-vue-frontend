@@ -9,6 +9,7 @@
     getAllBudgets().then(r => budgets.value = r).catch(e => console.error(e));
 
     const selectBudget = (budget) => {
+        console.log("does");
         user.saveBudget(budget);
         router.push("/transactions");
     };

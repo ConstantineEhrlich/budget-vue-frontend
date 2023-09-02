@@ -18,18 +18,18 @@ export const useUserState = defineStore({
         },
 
         async fetchProfile(){
+            // Try to load saved budget
+            if(this.storedBudgetPresent()){
+                const bdg = await getBudget(this.budgetId);
+                this.budget = bdg;
+            }
+
             // Try to fetch user profile
             try{
                 let serverProfile = await getUserProfile();
                 this.setProfile(serverProfile);
+                this.isOwner = this.checkOwner();
                 
-                // Try to load saved budget
-                if(this.storedBudgetPresent()){
-                    const bdg = await getBudget(this.budgetId);
-                    this.budget = bdg;
-                    this.isOwner = this.checkOwner();
-                    
-                }
             }
             // Unauthorized
             catch(error){
@@ -47,7 +47,7 @@ export const useUserState = defineStore({
         saveBudget(budget){
             this.budget = budget;
             this.budgetId = budget.id;
-            this.isOwner = this.checkOwner();
+            if(this.profile){this.isOwner = this.checkOwner();}
             localStorage.setItem('budgetId', this.budgetId);
         },
 

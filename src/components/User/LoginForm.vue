@@ -4,6 +4,8 @@
     import {useRouter} from 'vue-router';
     import {useUserState} from './userState';
     
+    const loginForm = ref(null);
+
     // Use router to redirect to next page
     const router = useRouter();
     
@@ -32,6 +34,16 @@
     
     // Form handler
     const login = async () => {
+        loading.value = true;
+        const form = await loginForm.value.validate();
+
+        if(!form.valid){
+            loading.value = false;
+            failedLogin.errorPresent = true;
+            failedLogin.errorMessage = "Please check form values!";
+            return null;
+        }
+
         loading.value = true;
         try {
             await userLogin(formData.value);
@@ -64,14 +76,14 @@
             closable
             @click:close="failedLogin.errorPresent=false"
             title="Error!"
-            :text="failedLogin.message"
+            :text="failedLogin.errorMessage"
             type="error"
         ></v-alert>
     </v-container>
 
     <v-container v-else>
         <h1>Login</h1>
-        <v-form style="max-width:400px" @submit.prevent="login" :disabled="loading">
+        <v-form ref="loginForm" style="max-width:400px" @submit.prevent="login" :disabled="loading">
             <v-text-field
                 v-model="formData.id"
                 label="Login"

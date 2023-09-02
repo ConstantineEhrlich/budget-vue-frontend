@@ -1,11 +1,5 @@
 import {api} from "../api.js";
 
-export const transTypes = new Map([
-    [5, "Income"],
-    [10, "Expense"],
-    [15, "Forecast"]
-]);
-
 export async function getTransactions(budgetId){
     try{
         const response = await api.get(`budgets/${budgetId}/transactions`);
