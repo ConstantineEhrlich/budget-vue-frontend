@@ -128,6 +128,7 @@ async function submitForm() {
             amount: formdata.amount,
             description: formdata.description,
             transactionType: transTypes.get(formdata.transactionType),
+            ownerId: user.budget.owners.filter(o => o.name === formdata.owner)[0].id,
             date: tLocal.toISOString(),
             year: tLocal.getFullYear(),
             period: tLocal.getMonth() + 1
@@ -137,6 +138,7 @@ async function submitForm() {
         loading.value = false;
         formSubmit.success = true;
         formSubmit.message = "Transaction saved!";
+        await setTimeout(() => router.push("/transactions"), 1000);
     }
     catch (e) {
         if (e.code === "ERR_BAD_REQUEST") {

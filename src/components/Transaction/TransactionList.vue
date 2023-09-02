@@ -67,7 +67,9 @@
 </script>
 
 <template>
+    
     <v-container v-if="loadFinished">
+        <h2>Budget {{ user.budget.slug }}</h2>
         <v-data-table
             v-model:items-per-page="itemsPerPage"
             :headers="headers"
