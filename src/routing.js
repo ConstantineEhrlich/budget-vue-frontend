@@ -28,6 +28,7 @@ export function generateMenu(user){
     }
 
     if(user.authenticated){
+        menu.push(userProfile);
         menu.push(logout);
     }
     else{
