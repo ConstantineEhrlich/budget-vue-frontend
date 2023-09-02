@@ -4,6 +4,7 @@ import { useRouter } from "vue-router";
 import { useUserState } from "../User/userState";
 import { addTransaction } from "./transactionController";
 import { rules } from "../validationRules";
+import { transTypes } from "./transactionController";
 const user = useUserState();
 const router = useRouter();
 const transactionForm = ref(null);
@@ -42,7 +43,6 @@ user.fetchProfile().then(() => {
 
 // Categories management
 
-const transTypes = new Map([["Income",5],["Expense",10],["Forecast", 15]]);
 const categories = ref([]);
 
 function refreshCategories() {

@@ -19,6 +19,11 @@
 <template>
     <v-container>
         <v-row>
+            <v-col>
+                <v-btn>Add Budget</v-btn>
+            </v-col>
+        </v-row>
+        <v-row>
             <v-col v-for="budget in budgets" :key="budget.id" cols="12" md="4" xs="1">
                 <v-card :title="budget.slug" @click="selectBudget(budget)">
                     <v-card-text>

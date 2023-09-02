@@ -19,10 +19,7 @@ export const useUserState = defineStore({
 
         async fetchProfile(){
             // Try to load saved budget
-            if(this.storedBudgetPresent()){
-                const bdg = await getBudget(this.budgetId);
-                this.budget = bdg;
-            }
+            await this.fetchBudget();
 
             // Try to fetch user profile
             try{
@@ -42,6 +39,13 @@ export const useUserState = defineStore({
             this.profile = null;
             this.budgetId = null;
             this.authenticated = false;
+        },
+
+        async fetchBudget(){
+            if(this.storedBudgetPresent()){
+                const bdg = await getBudget(this.budgetId);
+                this.budget = bdg;
+            }
         },
 
         saveBudget(budget){

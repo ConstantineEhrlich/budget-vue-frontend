@@ -9,9 +9,10 @@ export async function addCat(budgetId, catId, catDescription){
     }
 }
 
-export async function deactivateCat(budgetId, catId){
+export async function changeCatStatus(budgetId, catId){
     try{
-
+        const response = await api.get(`budgets/${budgetId}/categories/${catId}/changeStatus`);
+        return response;
     }
     catch(error){
         throw error;

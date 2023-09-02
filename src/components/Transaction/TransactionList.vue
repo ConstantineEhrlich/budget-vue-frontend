@@ -68,15 +68,21 @@
 
 <template>
     
-    <v-container v-if="loadFinished">
+    <div class="tableview" v-if="loadFinished">
         <h2>Budget {{ user.budget.slug }}</h2>
         <v-data-table
+            fixed-header
+            :height="500"
+            density="comfortable"
             v-model:items-per-page="itemsPerPage"
             :headers="headers"
             :items="data"
             ></v-data-table>
-    </v-container>
-    <v-container v-else>
+    </div>
+    <div v-else>
         <p>Data is loading...</p>
-    </v-container>
+    </div>
 </template>
+
+<style>
+</style>

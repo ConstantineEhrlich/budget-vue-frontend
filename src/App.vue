@@ -13,7 +13,7 @@
   // Watch for changes in the user state
   watch(
     () => [user.authenticated, user.budgetId, user.isOwner],
-    () => { dynamicMenu.value = generateMenu(user); console.log(dynamicMenu.value); }
+    () => { dynamicMenu.value = generateMenu(user); }
   );
 
  
@@ -22,15 +22,15 @@
 
 <template>
   <v-app>
-    <v-layout class="rounded rounded-md">
-
-      <!-- Application toolbar -->
-      <v-app-bar color="surface-variant">
+    <v-app-bar color="surface-variant" scroll-behavior="elevate" density="compact">
         <v-btn icon @click="drawer = !drawer">
           <v-icon>mdi-menu</v-icon>
         </v-btn>
         <v-toolbar-title>Budget Application</v-toolbar-title>
       </v-app-bar>
+
+      <!-- Application toolbar -->
+
 
       <!-- Navigation items -->
       <v-navigation-drawer v-model="drawer">
@@ -52,7 +52,6 @@
       </v-main>
 
 
-    </v-layout>
   </v-app>
 </template>
 
