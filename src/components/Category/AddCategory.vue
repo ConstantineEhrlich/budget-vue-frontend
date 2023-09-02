@@ -23,12 +23,6 @@
     // Loading status
     const loading = ref(false)
 
-    // Form submit carrier
-    let formSubmit = reactive({
-        success: false,
-        message: ""
-    })
-
     // Form reject carrier
     let formReject = reactive({
         errorPresent: false,

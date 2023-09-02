@@ -22,9 +22,12 @@ export async function getAllBudgets(){
     }
 }
 
-export async function addBudget(){
+export async function addBudget(description){
     try{
-
+        const response = await api.post("budgets/new", {
+            description: description,
+        });
+        return response.data;
     }
     catch(error){
         throw error;

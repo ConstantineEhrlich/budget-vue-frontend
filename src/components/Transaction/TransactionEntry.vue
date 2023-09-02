@@ -15,7 +15,7 @@ const formdata = reactive({
     category: "",
     amount: null,
     description: "",
-    transactionType: "Expense",
+    transactionType: "",
     owner: ""
 });
 const owners = ref([]);
@@ -37,6 +37,7 @@ user.fetchProfile().then(() => {
         owners.value = user.budget.owners;
         formdata.owner = user.budget.owners.filter(o => o.id === user.profile.id)[0].name;
         refreshCategories();
+        formdata.transactionType = "Expense"
     }
 });
 
@@ -134,6 +135,7 @@ async function submitForm() {
             year: tLocal.getFullYear(),
             period: tLocal.getMonth() + 1
         };
+        console.log(payload);
         
         const response = await addTransaction(user.budgetId, payload);
         loading.value = false;

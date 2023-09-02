@@ -2,16 +2,20 @@
     import {ref, reactive} from "vue";
     import { useUserState } from "../User/userState";
     import { useRouter } from "vue-router";
+    import { defineEmits } from "vue";
+    import { addBudget } from "./budgetController";
+    import { rules } from "../validationRules";
     const user = useUserState();
     const router = useRouter();
 
-    // Loading status
-    const loading = ref(true)
+    // emit event to close the dialog
+    const emit = defineEmits(["budget-added"]);
 
-    // Form submit carrier
-    let formSubmit = reactive({
-        success: false,
-        message: ""
+    // Loading status
+    const loading = ref(false)
+    
+    const formData = reactive({
+        description : "",
     })
 
     // Form reject carrier
@@ -21,7 +25,28 @@
     });
     
     async function submitForm(){
-        console.log(form.values);
+        try{
+            loading.value = true;
+            const response = await addBudget(formData.description)
+            user.saveBudget(response.data);
+            emit("budget-added");
+        }
+        catch(e){
+            if (e.code === "ERR_BAD_REQUEST") {
+                loading.value = false;
+                console.log(e);
+                formReject.message = e.response.data.message;
+                formReject.errorPresent = true;
+                return null;
+            }
+            else {
+                loading.value = false;
+                console.error(e);
+                formReject.message = "Error occured, please try again";
+                formReject.errorPresent = true;
+                return null;
+            }
+        }
     }
 
 
@@ -38,15 +63,21 @@
                 type="error"
             ></v-alert>
         </v-container>
-        <v-container v-else-if="!formSubmit.success">
-            <h3>New category</h3>
-            <v-form ref="form" @submit.prevent="submitForm" :disabled="loading">
-                Text
-            </v-form>
-        </v-container>
-
         <v-container v-else>
-            Category added!
+            <h3>New budget</h3>
+            <v-form ref="form" @submit.prevent="submitForm" :disabled="loading">
+
+                <v-text-field
+                    v-model="formData.description"
+                    type="text"
+                    label="Description"
+                    :rules="[rules.required, rules.descLength]"
+                ></v-text-field>
+
+                <v-btn type="submit" :disabled="loading">
+                    {{ loading ? "Loading..." : "New" }}
+                </v-btn>
+            </v-form>
         </v-container>
     </v-card>
 </template>

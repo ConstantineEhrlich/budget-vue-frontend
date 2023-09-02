@@ -23,7 +23,7 @@ export function generateMenu(user){
 
     if(user.authenticated && user.isOwner){
         menu.push(addTransaction);
-        menu.push(ownersList);
+        //menu.push(ownersList);
         menu.push(categoriesList);
     }
 

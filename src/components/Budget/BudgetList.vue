@@ -2,10 +2,12 @@
     import { getAllBudgets } from './budgetController';
     import { useUserState } from '../User/userState';
     import { useRouter } from 'vue-router';
+    import AddBudget from "./AddBudget.vue";
     import {ref} from "vue";
     const user = useUserState();
     const budgets = ref([]);
     const router = useRouter();
+    const addDialog = ref(false);
     getAllBudgets().then(r => budgets.value = r).catch(e => console.error(e));
 
     const selectBudget = (budget) => {
@@ -13,14 +15,21 @@
         router.push("/transactions");
     };
 
+    async function budgetAdded(){
+        router.push("/categories");
+    }
+
 
 </script>
 
 <template>
+    <v-dialog v-model="addDialog" max-width="400px">
+        <AddBudget @budget-added="budgetAdded"></AddBudget>
+    </v-dialog>
     <v-container>
         <v-row>
             <v-col>
-                <v-btn>Add Budget</v-btn>
+                <v-btn v-if="user.authenticated" @click="addDialog = true">Add Budget</v-btn>
             </v-col>
         </v-row>
         <v-row>

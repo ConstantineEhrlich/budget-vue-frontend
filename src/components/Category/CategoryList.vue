@@ -3,15 +3,22 @@
     import { useUserState } from "../User/userState";
     import { typesTrans } from "../Transaction/transactionController";
     import { changeCatStatus } from "./categoryController";
+    import { useRouter } from "vue-router";
     import AddCategory from "./AddCategory.vue";
 
     const loadFinished = ref(false);
+    const router = useRouter();
 
     const addCatDialog = ref(false);
 
     const user = useUserState();
+    if(!user.authenticated){
+        router.push("/");
+    }
 
-    user.fetchBudget().then(() => loadFinished.value = true);
+    user.fetchBudget().then(() => {
+        loadFinished.value = true;
+    });
 
     async function updateStatus(cat){
         console.log(cat);
