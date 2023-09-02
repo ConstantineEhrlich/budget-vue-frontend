@@ -20,7 +20,7 @@
     const headers = [
         {title: 'Period', key: 'period', align:'start', sortable: true},
         {title: 'Date', key: 'recordedAt', align: 'start', sortable: false},
-        {title: 'Transaction type', key:'transactionType', align: 'start', sortable: true},
+        {title: 'Type', key:'transactionType', align: 'start', sortable: true},
         {title: 'Category', key:'category', align:'start', sortable:true},
         {title: 'Owner', key:'owner', align: 'start', sortable:true},
         {title: 'Amount', key:'amount', align: 'end', sortable:false}
@@ -31,7 +31,7 @@
     
 
     const dateRender = {
-        month: 'long', 
+        month: 'short', 
         day: 'numeric'
     };
 
@@ -72,6 +72,8 @@
         <h2>Budget {{ user.budget.slug }}</h2>
         <v-data-table
             fixed-header
+            fixed-footer
+            hover
             :height="500"
             density="comfortable"
             v-model:items-per-page="itemsPerPage"

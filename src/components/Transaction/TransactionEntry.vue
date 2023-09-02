@@ -151,6 +151,7 @@ async function submitForm() {
         else {
             loading.value = false;
             console.error(e);
+            formReject.errorPresent = true;
             formReject.message = "Error occured, please try again";
         }
     }

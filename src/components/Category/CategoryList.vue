@@ -3,6 +3,7 @@
     import { useUserState } from "../User/userState";
     import { typesTrans } from "../Transaction/transactionController";
     import { changeCatStatus } from "./categoryController";
+    import AddCategory from "./AddCategory.vue";
 
     const loadFinished = ref(false);
 
@@ -28,10 +29,10 @@
 </script>
 
 <template>
-    <v-dialog v-model="addCatDialog" max-width="400px"></v-dialog>
+    <v-dialog v-model="addCatDialog" max-width="400px"><AddCategory></AddCategory></v-dialog>
     <div style="margin: 10px;" v-if="loadFinished">
         <h1>Categories</h1>
-        <div class="button-containter"><v-btn @click="addCatDialog = true">Add category</v-btn></div>
+        <div class="button-container"><v-btn @click="addCatDialog = true">Add category</v-btn></div>
         <div>
         <v-table height="90%" fixed-header density="compact">
             <thead>
@@ -78,6 +79,6 @@
         margin-top:-5px
     }
     .button-container{
-        margin: 10px;
+        margin: 5px;
     }
 </style>
