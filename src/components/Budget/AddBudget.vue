@@ -27,8 +27,9 @@
     async function submitForm(){
         try{
             loading.value = true;
-            const response = await addBudget(formData.description)
-            user.saveBudget(response.data);
+            const response = await addBudget(formData.description);
+            console.log(response.data);
+            //user.saveBudget(response.data);
             emit("budget-added");
         }
         catch(e){

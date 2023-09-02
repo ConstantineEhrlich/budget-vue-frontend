@@ -45,16 +45,22 @@ export async function hideBudget(){
 
 export async function addOwner(budgetId, ownerId){
     try{
-
+        const response = await api.post(`budgets/${budgetId}/addOwner`, {
+            userId: ownerId,
+        })
+        return response.data;
     }
     catch(error){
         throw error;
     }
 }
 
-export async function removeOwner(){
+export async function removeOwner(budgetId, ownerId){
     try{
-
+        const response = await api.post(`budgets/${budgetId}/removeOwner`, {
+            userId: ownerId,
+        });
+        return response.data;
     }
     catch(error){
         throw error;

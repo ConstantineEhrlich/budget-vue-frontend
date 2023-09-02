@@ -8,23 +8,30 @@
     const budgets = ref([]);
     const router = useRouter();
     const addDialog = ref(false);
-    getAllBudgets().then(r => budgets.value = r).catch(e => console.error(e));
+
+    refreshBudgets();
+
+    async function refreshBudgets(){
+        addDialog.value = false;
+        try{
+            budgets.value = await getAllBudgets();
+        }
+        catch(e){
+            console.error(e);
+        }
+    }
 
     const selectBudget = (budget) => {
         user.saveBudget(budget);
         router.push("/transactions");
     };
 
-    async function budgetAdded(){
-        router.push("/categories");
-    }
-
 
 </script>
 
 <template>
     <v-dialog v-model="addDialog" max-width="400px">
-        <AddBudget @budget-added="budgetAdded"></AddBudget>
+        <AddBudget @budget-added="refreshBudgets"></AddBudget>
     </v-dialog>
     <v-container>
         <v-row>
