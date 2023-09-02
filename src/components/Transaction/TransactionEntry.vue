@@ -34,6 +34,7 @@ user.fetchProfile().then(() => {
     else {
         loading.value = false;
         owners.value = user.budget.owners;
+        formdata.owner = user.budget.owners.filter(o => o.id === user.profile.id)[0].name;
         refreshCategories();
     }
 });
@@ -170,6 +171,13 @@ async function submitForm() {
         <p v-if="user.budget"><b>Budget file:</b> {{ user.budget.slug }} </p><br>
         <v-form ref="transactionForm" style="max-width:400px" @submit.prevent="submitForm" :disabled="loading">
             <v-combobox
+                v-model="formdata.owner"
+                label="Owner"
+                :rules="[rules.required]"
+                :items="owners.map(o => o.name)"
+            ></v-combobox>
+
+            <v-combobox
                 v-model="formdata.transactionType"
                 label="Type"
                 :rules="[rules.required]"
@@ -183,12 +191,6 @@ async function submitForm() {
                 :rules="[rules.required]"
                 :clearable="false"></v-combobox>
 
-            <v-combobox
-                v-model="formdata.owner"
-                label="Owner"
-                :rules="[rules.required]"
-                :items="owners.map(o => o.name)"
-            ></v-combobox>
 
             <v-text-field
                 v-model="formdata.amount"
