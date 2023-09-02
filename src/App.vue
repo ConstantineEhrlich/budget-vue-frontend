@@ -1,10 +1,23 @@
 <script setup>
-  import { ref } from "vue";
+  import { ref, watch } from "vue";
   import { useUserState } from "./components/User/userState";
   import { useRouter } from "vue-router";
+  import { generateMenu } from "./routing";
+
   const router = useRouter();
   const user = useUserState();
   const drawer = ref(true);
+
+  const dynamicMenu = ref(null);
+
+  // Watch for changes in the user state
+  watch(
+    () => [user.authenticated, user.budgetId, user.isOwner],
+    () => { dynamicMenu.value = generateMenu(user); console.log(dynamicMenu.value); }
+  );
+
+ 
+
 </script>
 
 <template>
@@ -42,8 +55,14 @@
 
             <!-- Add transaction - -->
             <v-list-item v-if="user.isOwner" @click="router.push('/add')">
-              <v-icon>mdi-receipt-text-plus</v-icon>
               <v-list-item-title>Add transaction</v-list-item-title>
+              <v-icon>mdi-receipt-text-plus</v-icon>
+            </v-list-item>
+
+
+            <v-list-item v-if="user.isOwner" @click="router.push('/categories')">
+              <v-icon>mdi-shape</v-icon>
+              <v-list-item-title>Categories</v-list-item-title>
             </v-list-item>
 
             <!-- User profile -->

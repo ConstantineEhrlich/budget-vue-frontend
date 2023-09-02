@@ -1,15 +1,5 @@
 import {api} from "../api.js";
 
-
-export async function getBudgetCats(budgetId){
-    try{
-
-    }
-    catch(error){
-        throw error;
-    }
-}
-
 export async function addCat(budgetId, catId, catDescription){
     try{
 

@@ -10,33 +10,8 @@ import {useUserState} from './components/User/userState';
 import { buildVuetify } from './plugins/vuetify';
 const vuetify = buildVuetify();
 
-
 // Router
-import {createRouter, createWebHistory} from 'vue-router';
-import BudgetListVue from './components/Budget/BudgetList.vue';
-import UserProfileVue from './components/User/UserProfile.vue';
-import LoginFormVue from './components/User/LoginForm.vue';
-import LogOutVue from './components/User/LogOut.vue';
-import SignUpFormVue from './components/User/SignUpForm.vue';
-import TransactionsVue from './components/Transaction/Transactions.vue';
-import TransactionEntryVue from './components/Transaction/TransactionEntry.vue';
-
-
-const routes = [
-    {path: '/', component: BudgetListVue},
-    {path: '/profile', component: UserProfileVue},
-    {path: '/login', component: LoginFormVue},
-    {path: '/signup', component: SignUpFormVue},
-    {path: '/logout', component: LogOutVue},
-    {path: "/transactions", component: TransactionsVue},
-    {path: "/add", component: TransactionEntryVue}
-
-]
-
-const router = createRouter({
-    history: createWebHistory(),
-    routes,
-})
+import {router} from "./routing";
 
 // Create app and add services
 const app = createApp(App);
@@ -48,7 +23,7 @@ app.use(router);
 const user = useUserState();
 user.fetchProfile()
     .then(() => console.log("Auth status:", user.authenticated))
-    .catch(error => console.error(error));
+    .catch(error => console.error("User is not authenticated"));
 
 // Render
 app.mount("#app");
