@@ -25,7 +25,8 @@ export const useUserState = defineStore({
             try{
                 let serverProfile = await getUserProfile();
                 this.setProfile(serverProfile);
-                this.isOwner = this.checkOwner();
+                if(this.budgetId){
+                    this.isOwner = this.checkOwner();}
                 
             }
             // Unauthorized

@@ -51,8 +51,8 @@
                         period: `${t.year}-${t.period}`,
                         recordedAt: new Date(t.transactionDate).toLocaleDateString('en-US', dateRender),
                         transactionType: transTypes.get(t.transactionType),
-                        category: budget.categories.filter(c => c.id == t.categoryId)[0].description,
-                        owner: budget.owners.filter(o => o.id == t.ownerId)[0].name,
+                        category: budget.categories.filter(c => c.id === t.categoryId)[0].description,
+                        owner: budget.owners.filter(o => o.id === t.ownerId)[0].name,
                         amount: t.amount.toLocaleString("en-US", numRender),
                     });
         })
@@ -68,18 +68,18 @@
 
 <template>
     
-    <div class="tableview" v-if="loadFinished">
-        <h2>Budget {{ user.budget.slug }}</h2>
+    <div class="tableview" v-if="loadFinished" style="margin: 10px">
+        <h2>{{ user.budget.description }}</h2>
         <v-data-table
-            fixed-header
-            fixed-footer
-            hover
-            :height="500"
-            density="comfortable"
             v-model:items-per-page="itemsPerPage"
             :headers="headers"
+            :height="500"
             :items="data"
-            ></v-data-table>
+            density="comfortable"
+            fixed-footer
+            fixed-header
+            hover="true"
+        ></v-data-table>
     </div>
     <div v-else>
         <p>Data is loading...</p>

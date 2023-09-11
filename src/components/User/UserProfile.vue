@@ -2,12 +2,15 @@
     import { useUserState } from "./userState";
 
     let loadedUser = useUserState();
+    
+
+
 
 </script>
 
 
 <template>
-    <v-card title="User Profile" style="width:600px;">
+    <v-card title="User Profile" v-if="loadedUser" style="width:600px;">
         <v-card-text>
             <v-list>
                 <v-list-item>

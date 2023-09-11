@@ -22,34 +22,28 @@
 
 <template>
   <v-app>
-    <v-app-bar color="surface-variant" scroll-behavior="elevate" density="compact">
-        <v-btn icon @click="drawer = !drawer">
-          <v-icon>mdi-menu</v-icon>
-        </v-btn>
-        <v-toolbar-title>Budget Application</v-toolbar-title>
-      </v-app-bar>
+    <!-- Application toolbar -->
+    <v-app-bar :elevation="1" density="compact" color="light-blue-darken-3">
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-title>Budget Application</v-app-bar-title>
+    </v-app-bar>
 
-      <!-- Application toolbar -->
+    <!-- Navigation -->
+    <v-navigation-drawer :elevation="2" v-model="drawer" color="grey-lighten-4">
+      <v-list>
+        <v-list-item v-for="menuitem of dynamicMenu" :key="menuitem.path" @click="$router.push(menuitem.path)">
+          <v-list-item-title><b>{{ menuitem.meta.text }}</b></v-list-item-title>
+          <template v-slot:prepend>
+            <v-icon>{{ menuitem.meta.icon }}</v-icon>
+          </template>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
 
-
-      <!-- Navigation items -->
-      <v-navigation-drawer v-model="drawer">
-        <v-list>
-          <v-list-item v-for="menuitem of dynamicMenu" :key="menuitem.path" @click="$router.push(menuitem.path)">
-            <v-list-item-title><b>{{ menuitem.meta.text }}</b></v-list-item-title>
-            <template v-slot:prepend>
-              <v-icon>{{ menuitem.meta.icon }}</v-icon>  
-            </template>
-          </v-list-item>
-        </v-list>
-      </v-navigation-drawer>
-
-
-
-      <v-main class="d-flex align-start justify-start">
-        <!-- Page content -->
-        <router-view></router-view>
-      </v-main>
+    <!-- Page content -->
+    <v-main class="d-flex align-start justify-start">
+      <router-view></router-view>
+    </v-main>
 
 
   </v-app>
