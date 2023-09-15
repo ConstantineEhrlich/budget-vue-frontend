@@ -1,8 +1,9 @@
 <script setup>
-    import { ref } from "vue";
+    import {reactive, ref} from "vue";
     import { getBudget } from "../Budget/budgetController";
     import { getTransactions } from "../Transaction/transactionController";
     import { useUserState } from "../User/userState";
+    import { SOCKET_URL} from "../api";
 
     const transTypes = new Map([
         [5, "Income"],
@@ -26,7 +27,9 @@
         {title: 'Amount', key:'amount', align: 'end', sortable:false}
     ]
 
-    let data = [];
+    const data = reactive({
+      values: null
+    });
 
     
 
@@ -44,10 +47,11 @@
 
     async function getTableData(){
         try{
+            data.values = [];
             const budget = await getBudget(user.budgetId);
             const transactions = await getTransactions(budget.id);
             transactions.forEach(t => {
-                data.push({
+                data.values.push({
                         period: `${t.year}-${t.period}`,
                         recordedAt: new Date(t.transactionDate).toLocaleDateString('en-US', dateRender),
                         transactionType: transTypes.get(t.transactionType),
@@ -63,6 +67,11 @@
     }
     getTableData().then(() => loadFinished.value = true);
 
+    const socket = new WebSocket(`${SOCKET_URL}${user.budgetId}/updates`);
+    socket.addEventListener("message", async () => {
+      await getTableData();
+    });
+
 
 </script>
 
@@ -74,11 +83,10 @@
             v-model:items-per-page="itemsPerPage"
             :headers="headers"
             :height="500"
-            :items="data"
+            :items="data.values"
             density="comfortable"
             fixed-footer
             fixed-header
-            hover="true"
         ></v-data-table>
     </div>
     <div v-else>
