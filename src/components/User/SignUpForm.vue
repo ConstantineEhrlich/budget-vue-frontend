@@ -56,7 +56,7 @@
             else{
                 loading.value = false;
                 console.error(e);
-                failedRegistration.message = "Error occured, please try again"
+                failedRegistration.message = "Error occurred, please try again"
                 return null;
             }
         }

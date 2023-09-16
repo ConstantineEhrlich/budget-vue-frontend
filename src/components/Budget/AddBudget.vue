@@ -43,7 +43,7 @@
             else {
                 loading.value = false;
                 console.error(e);
-                formReject.message = "Error occured, please try again";
+                formReject.message = "Error occurred, please try again";
                 formReject.errorPresent = true;
                 return null;
             }

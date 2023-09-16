@@ -64,7 +64,7 @@
             else{
                 loading.value = false;
                 console.error(e);
-                failedLogin.message = "Error occured, please try again";
+                failedLogin.message = "Error occurred, please try again";
             }
         }
     };
