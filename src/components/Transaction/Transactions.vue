@@ -1,16 +1,15 @@
 <script setup>
-    import { useUserState } from "../User/userState";
-    import { useRouter } from "vue-router";
-    import TransactionList from "./TransactionList.vue";
+import {useUserState} from "../User/userState";
+import {useRouter} from "vue-router";
+import TransactionList from "./TransactionList.vue";
 
-    const router = useRouter();
-    const user = useUserState();
+const router = useRouter();
+const user = useUserState();
 
-    
 
 </script>
 
 <template>
-    <TransactionList></TransactionList>
+  <TransactionList></TransactionList>
 
 </template>

@@ -1,6 +1,3 @@
-import { useUserState } from './components/User/userState';
-import { ref } from "vue";
-
 import {createRouter, createWebHistory} from 'vue-router';
 import BudgetListVue from './components/Budget/BudgetList.vue';
 import UserProfileVue from './components/User/UserProfile.vue';
@@ -13,25 +10,24 @@ import CategoryListVue from './components/Category/CategoryList.vue';
 import OwnersListVue from './components/Budget/OwnersList.vue';
 
 
-export function generateMenu(user){
+export function generateMenu(user) {
     const menu = [];
     menu.push(allBudgets);
 
-    if(user.budgetId != null){
+    if (user.budgetId != null) {
         menu.push(tranasctions);
     }
 
-    if(user.authenticated && user.isOwner){
+    if (user.authenticated && user.isOwner) {
         menu.push(addTransaction);
         menu.push(ownersList);
         menu.push(categoriesList);
     }
 
-    if(user.authenticated){
+    if (user.authenticated) {
         menu.push(userProfile);
         menu.push(logout);
-    }
-    else{
+    } else {
         menu.push(signup);
         menu.push(login);
     }
@@ -43,92 +39,91 @@ export function generateMenu(user){
 const routes = [];
 
 const allBudgets = {
-  path: "/",
-  component: BudgetListVue,
-  meta: {
-    icon: "mdi-cash-multiple",
-    text: "All Budgets",
-  }
+    path: "/",
+    component: BudgetListVue,
+    meta: {
+        icon: "mdi-cash-multiple",
+        text: "All Budgets",
+    }
 };
 routes.push(allBudgets);
 
 
 const tranasctions = {
-  path: "/transactions",
-  component: TransactionsVue,
-  meta: {
-    icon: "mdi-format-list-bulleted-type",
-    text: "Transactions",
-  }
+    path: "/transactions",
+    component: TransactionsVue,
+    meta: {
+        icon: "mdi-format-list-bulleted-type",
+        text: "Transactions",
+    }
 };
 routes.push(tranasctions);
 
 
 const addTransaction = {
-  path: "/add",
-  component: TransactionEntryVue,
-  meta: {
-    icon: "mdi-receipt-text-plus",
-    text: "Add transaction",
-  }
+    path: "/add",
+    component: TransactionEntryVue,
+    meta: {
+        icon: "mdi-receipt-text-plus",
+        text: "Add transaction",
+    }
 }
 routes.push(addTransaction);
 
 
 const categoriesList = {
-  path: "/categories",
-  component: CategoryListVue,
-  meta: {
-    icon: "mdi-shape",
-    text: "Categories"
-  }
+    path: "/categories",
+    component: CategoryListVue,
+    meta: {
+        icon: "mdi-shape",
+        text: "Categories"
+    }
 }
 routes.push(categoriesList);
 
 
 const ownersList = {
-  path: "/owners",
-  component: OwnersListVue,
-  meta: {
-    icon: "mdi-account-group",
-    text: "Owners"
-  }
+    path: "/owners",
+    component: OwnersListVue,
+    meta: {
+        icon: "mdi-account-group",
+        text: "Owners"
+    }
 }
 routes.push(ownersList);
 
 
 const userProfile = {
-  path: "/profile",
-  component: UserProfileVue,
-  meta:{
-    icon: "mdi-account",
-    text: "User Profile"
-  }
+    path: "/profile",
+    component: UserProfileVue,
+    meta: {
+        icon: "mdi-account",
+        text: "User Profile"
+    }
 }
 routes.push(userProfile);
 
 
 const login = {
-  path: "/login",
-  component: LoginFormVue,
-  meta: {
-    icon: "mdi-login",
-    text: "Login"
-  }
+    path: "/login",
+    component: LoginFormVue,
+    meta: {
+        icon: "mdi-login",
+        text: "Login"
+    }
 }
 routes.push(login);
 
 
 const signup = {
-  path: "/signup",
-  component: SignUpFormVue,
-  meta: {
-    icon: "mdi-account-plus",
-    text: "Sign up"
-  }
+    path: "/signup",
+    component: SignUpFormVue,
+    meta: {
+        icon: "mdi-account-plus",
+        text: "Sign up"
+    }
 }
 routes.push(signup);
-
 
 
 const logout = {

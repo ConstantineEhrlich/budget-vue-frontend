@@ -1,17 +1,17 @@
 // Base
-import { createApp } from 'vue'
+import {createApp} from 'vue'
 import App from './App.vue'
 
 // State management
-import { createPinia } from 'pinia'
+import {createPinia} from 'pinia'
 import {useUserState} from './components/User/userState';
 
 // Vuetify
-import { buildVuetify } from './plugins/vuetify';
-const vuetify = buildVuetify();
-
+import {buildVuetify} from './plugins/vuetify';
 // Router
 import {router} from "./routing";
+
+const vuetify = buildVuetify();
 
 // Create app and add services
 const app = createApp(App);
