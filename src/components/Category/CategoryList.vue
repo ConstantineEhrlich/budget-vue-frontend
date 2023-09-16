@@ -131,10 +131,6 @@ th {
   margin: 5px;
 }
 
-tr:hover {
-  cursor: pointer;
-}
-
 .monospace {
   font-family: monospace;
 }
