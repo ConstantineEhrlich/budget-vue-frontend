@@ -3,7 +3,7 @@
     import { useUserState } from "../User/userState";
     import { useRouter } from "vue-router";
     import { rules } from "../validationRules";
-import { addOwner } from "./budgetController";
+    import { addOwner } from "./budgetController";
     const user = useUserState();
     const router = useRouter();
     const form = ref(null);
