@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: budgetfront
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: budgetfront
+  template:
+    metadata:
+      labels:
+        app: budgetfront
+    spec:
+      containers:
+        - name: budgetfront
+          image: budgetfront:latest
+          imagePullPolicy: IfNotPresent
+            
