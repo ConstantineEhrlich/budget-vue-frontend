@@ -138,7 +138,6 @@ async function submitForm() {
       year: tLocal.getFullYear(),
       period: tLocal.getMonth() + 1
     };
-    console.log(payload);
 
     const response = await addTransaction(user.budgetId, payload);
     loading.value = false;

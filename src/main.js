@@ -22,7 +22,6 @@ app.use(router);
 // Get User profile
 const user = useUserState();
 user.fetchProfile()
-    .then(() => console.log("Auth status:", user.authenticated))
     .catch(error => console.error("User is not authenticated"));
 
 // Render
