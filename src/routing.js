@@ -1,5 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router';
 import AllBudgetsVue from './components/Budget/AllBudgets.vue';
+import MyBudgetsVue from './components/Budget/MyBudgets.vue'
 import UserProfileVue from './components/User/UserProfile.vue';
 import LoginFormVue from './components/User/LoginForm.vue';
 import LogOutVue from './components/User/LogOut.vue';
@@ -14,9 +15,15 @@ export function generateMenu(user) {
     const menu = [];
     menu.push(allBudgets);
 
+
+    if(user.authenticated){
+        menu.push(myBudgets)
+    }
+    
     if (user.budgetId != null) {
         menu.push(tranasctions);
     }
+    
 
     if (user.authenticated && user.isOwner) {
         menu.push(addTransaction);
@@ -47,6 +54,17 @@ const allBudgets = {
     }
 };
 routes.push(allBudgets);
+
+
+const myBudgets = {
+    path: "/my",
+    component: MyBudgetsVue,
+    meta: {
+        icon: "mdi-account-cash",
+        text: "My Budgets",
+    }
+};
+routes.push(myBudgets);
 
 
 const tranasctions = {
