@@ -28,8 +28,10 @@ async function submitForm() {
   try {
     loading.value = true;
     const response = await addBudget(formData.description);
-    console.log(response.data);
-    //user.saveBudget(response.data);
+    if(response){
+      user.saveBudget(response);
+    }
+    
     emit("budget-added");
   } catch (e) {
     if (e.code === "ERR_BAD_REQUEST") {
