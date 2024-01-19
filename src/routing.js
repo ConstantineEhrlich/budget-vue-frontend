@@ -1,5 +1,5 @@
 import {createRouter, createWebHistory} from 'vue-router';
-import BudgetListVue from './components/Budget/BudgetList.vue';
+import AllBudgetsVue from './components/Budget/AllBudgets.vue';
 import UserProfileVue from './components/User/UserProfile.vue';
 import LoginFormVue from './components/User/LoginForm.vue';
 import LogOutVue from './components/User/LogOut.vue';
@@ -40,7 +40,7 @@ const routes = [];
 
 const allBudgets = {
     path: "/",
-    component: BudgetListVue,
+    component: AllBudgetsVue,
     meta: {
         icon: "mdi-cash-multiple",
         text: "All Budgets",

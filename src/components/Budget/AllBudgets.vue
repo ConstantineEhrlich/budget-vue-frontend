@@ -4,7 +4,7 @@ import {useUserState} from '../User/userState';
 import {useRouter} from 'vue-router';
 import AddBudget from "./AddBudget.vue";
 import {ref} from "vue";
-import BudgetCard from "@/components/Budget/BudgetCard.vue";
+import BudgetCard from "./BudgetCard.vue";
 
 const user = useUserState();
 const budgets = ref([]);
