@@ -4,6 +4,7 @@ import {useUserState} from '../User/userState';
 import {useRouter} from 'vue-router';
 import AddBudget from "./AddBudget.vue";
 import {ref} from "vue";
+import BudgetCard from "@/components/Budget/BudgetCard.vue";
 
 const user = useUserState();
 const budgets = ref([]);
@@ -41,20 +42,7 @@ const selectBudget = (budget) => {
     </v-row>
     <v-row>
       <v-col v-for="budget in budgets" :key="budget.id" cols="12" md="4" xs="1">
-        <v-card :title="budget.slug" @click="selectBudget(budget)">
-          <v-card-text>
-            <h2>{{ budget.description }}</h2>
-            <p>
-              <b>Categories:</b> {{ budget.categories.map(cat => cat.id).join(", ") }}.
-            </p>
-            <v-list density="compact">
-              <h4>Owners:</h4>
-              <v-list-item v-for="owner in budget.owners" :key="owner.id">
-                <b>{{ owner.name }}</b> {{ owner.email }}
-              </v-list-item>
-            </v-list>
-          </v-card-text>
-        </v-card>
+        <BudgetCard :budget="budget" @select-budget="selectBudget(budget)"></BudgetCard>
       </v-col>
     </v-row>
   </v-container>
