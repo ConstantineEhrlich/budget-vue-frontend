@@ -24,6 +24,9 @@ export function generateMenu(user) {
         menu.push(tranasctions);
     }
     
+    if (!user.isOwner){
+        console.log("User is not owner");
+    }
 
     if (user.authenticated && user.isOwner) {
         menu.push(addTransaction);

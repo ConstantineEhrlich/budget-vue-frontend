@@ -35,7 +35,7 @@ user.fetchProfile().then(() => {
   else {
     loading.value = false;
     owners.value = user.budget.owners;
-    formdata.owner = user.budget.owners.filter(o => o.id === user.profile.id)[0].name;
+    formdata.owner = user.budget.owners.filter(o => o.id === user.profile.login)[0].name;
     refreshCategories();
     formdata.transactionType = "Expense"
   }

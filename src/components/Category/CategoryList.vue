@@ -11,9 +11,11 @@ const router = useRouter();
 
 
 const user = useUserState();
-if (!user.authenticated) {
-  router.push("/");
-}
+// await user.fetchProfile();
+// if (!user.authenticated) {
+//   console.log("User is not auth");
+//   router.push("/");
+// }
 
 user.fetchBudget().then(() => {
   loadFinished.value = true;

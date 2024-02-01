@@ -3,7 +3,7 @@ import {api} from "../api.js";
 export async function userLogin(data) {
     try {
         const response = await api.post("/user/login", {
-            userid: data.id,
+            login: data.id,
             password: data.password,
         })
         return response.data;
@@ -14,16 +14,16 @@ export async function userLogin(data) {
 
 export async function userLogout() {
     try {
-        const response = await api.post("/user/logout");
+        const response = await api.get("/user/logout");
         return response.data;
     } catch (error) {
         throw error;
     }
 }
 
-export async function getUserProfile(id = "") {
+export async function getUserProfile() {
     try {
-        const response = await api.get(`user/profile/${id}`);
+        const response = await api.get(`/profile`);
         return response.data;
     } catch (error) {
         throw error;
@@ -33,7 +33,7 @@ export async function getUserProfile(id = "") {
 export async function userSignUp(data) {
     try {
         const response = await api.post("user/signup", {
-            id: data.id,
+            login: data.id,
             name: data.name,
             email: data.email,
             password: data.password

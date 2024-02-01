@@ -32,6 +32,7 @@ export const useUserState = defineStore({
             }
                 // Unauthorized
             catch (error) {
+                console.log(error);
                 this.profile = null;
             }
         },
@@ -65,7 +66,7 @@ export const useUserState = defineStore({
         },
 
         checkOwner() {
-            return this.budget.owners.map(o => o.id).includes(this.profile.id);
+            return this.budget.owners.map(o => o.id).includes(this.profile.login);
         }
 
     },
