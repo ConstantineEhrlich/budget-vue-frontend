@@ -1,0 +1,27 @@
+name: Build and push docker images
+on:
+  push:
+    branches:
+      - deploy
+    paths:
+      - '**'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch deploy
+        uses: actions/checkout@v2
+        with:
+          ref:
+            deploy
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DO_ACCESS_TOKEN }}
+      - name: Build budgetfront image
+        run: docker build --platform linux/amd64 -f dockerfile -t ${{ secrets.DO_REGISTRY_NAME }}/budgetfront:latest .
+      - name: Login to Digital Ocean
+        run: doctl registry login --expiry-seconds 1200
+      - name: Push budgetfront image
+        run: docker push ${{ secrets.DO_REGISTRY_NAME }}/budgetfront:latest
+      

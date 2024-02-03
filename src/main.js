@@ -23,7 +23,7 @@ app.use(router);
 const user = useUserState();
 user.fetchProfile()
     .catch(error => console.error("User is not authenticated"));
-
+console.log("Welcome to the budget application");
 // Render
 app.mount("#app");
 
