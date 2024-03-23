@@ -1,5 +1,5 @@
 import {createRouter, createWebHistory} from 'vue-router';
-import AllBudgetsVue from './components/Budget/AllBudgets.vue';
+import PublicBudgetsVue from './components/Budget/PublicBudgets.vue';
 import MyBudgetsVue from './components/Budget/MyBudgets.vue'
 import UserProfileVue from './components/User/UserProfile.vue';
 import LoginFormVue from './components/User/LoginForm.vue';
@@ -13,7 +13,7 @@ import OwnersListVue from './components/Budget/OwnersList.vue';
 
 export function generateMenu(user) {
     const menu = [];
-    menu.push(allBudgets);
+    menu.push(publicBudgets);
 
 
     if(user.authenticated){
@@ -48,15 +48,15 @@ export function generateMenu(user) {
 
 const routes = [];
 
-const allBudgets = {
+const publicBudgets = {
     path: "/",
-    component: AllBudgetsVue,
+    component: PublicBudgetsVue,
     meta: {
         icon: "mdi-cash-multiple",
-        text: "All Budgets",
+        text: "Public Budgets",
     }
 };
-routes.push(allBudgets);
+routes.push(publicBudgets);
 
 
 const myBudgets = {
