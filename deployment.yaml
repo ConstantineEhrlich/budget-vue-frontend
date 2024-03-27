@@ -15,5 +15,5 @@ spec:
       containers:
         - name: budgetfront
           image: registry.digitalocean.com/budgetapp-registry/budgetfront:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
             
