@@ -8,11 +8,11 @@ platform:
 steps:
   - name: build
     commands:
-      - docker build --platform linux/amd64 -f dockerfile -t mybudget/budgetfront:latest .
+      - docker build --platform linux/amd64 -f dockerfile -t docker-registry.home.arpa/mybudget/budgetfront:latest .
   
   - name: push
     commands:
-      - docker push docker-registry.home.arpa/budgetfront:latest
+      - docker push docker-registry.home.arpa/mybudget/budgetfront:latest
   
   - name: deploy
     commands:
