@@ -1,0 +1,21 @@
+kind: pipeline
+type: exec
+name: default
+platform:
+  os: linux
+  arch: amd64
+  
+steps:
+  - name: build
+    commands:
+      - docker build --platform linux/amd64 -f dockerfile -t mybudget/budgetfront:latest .
+  
+  - name: push
+    commands:
+      - docker push docker-registry.home.arpa/budgetfront:latest
+  
+  - name: deploy
+    commands:
+      - kubectl apply -f deployment.yaml -n mybudget-staging
+      - kubectl apply -f service.yaml -n mybudget-staging
+      - kubectl rollout restart deployment/budgetfront -n mybudget-staging
