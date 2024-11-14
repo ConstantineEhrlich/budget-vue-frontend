@@ -16,4 +16,4 @@ spec:
         - name: budgetfront
           image: docker-registry.home.arpa/mybudget/budgetfront:latest
           imagePullPolicy: Always
-            
+             

@@ -13,9 +13,3 @@ steps:
   - name: push
     commands:
       - docker push docker-registry.home.arpa/mybudget/budgetfront:latest
-  
-  - name: deploy
-    commands:
-      - kubectl apply -f deployment.yaml -n mybudget-staging
-      - kubectl apply -f service.yaml -n mybudget-staging
-      - kubectl rollout restart deployment/budgetfront -n mybudget-staging
