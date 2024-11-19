@@ -1,5 +1,7 @@
 # https://v2.vuejs.org/v2/cookbook/dockerize-vuejs-app.html
 FROM node:lts-alpine as build-stage
+ARG API_URL
+ENV VITE_API_URL=${API_URL}
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
