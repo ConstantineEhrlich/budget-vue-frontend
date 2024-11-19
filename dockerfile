@@ -4,7 +4,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-ARG API_URL = mybudget.today
+ARG API_URL = "mybudget.today"
 RUN echo "VITE_API_URL=$API_URL" > .env.production
 RUN npm run build
 
