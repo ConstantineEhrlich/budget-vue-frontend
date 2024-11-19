@@ -8,7 +8,7 @@ platform:
 steps:
   - name: build
     commands:
-      - docker build --build-arg API_URL=mybudget.home.arpa --platform linux/amd64 -f dockerfile -t docker-registry.home.arpa/mybudget/budgetfront:latest .
+      - docker build --build-arg API_URL=api.mybudget.home.arpa --platform linux/amd64 -f dockerfile -t docker-registry.home.arpa/mybudget/budgetfront:latest .
     when:
       branch: main
       event:
