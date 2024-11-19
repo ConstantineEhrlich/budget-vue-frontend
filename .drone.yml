@@ -9,7 +9,16 @@ steps:
   - name: build
     commands:
       - docker build --platform linux/amd64 -f dockerfile -t docker-registry.home.arpa/mybudget/budgetfront:latest .
-  
+    when:
+      branch: main
+      event:
+        - pull_request
+        - push
+
   - name: push
     commands:
       - docker push docker-registry.home.arpa/mybudget/budgetfront:latest
+    when:
+      branch: main
+      event:
+        - push
