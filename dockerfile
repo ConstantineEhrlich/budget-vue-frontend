@@ -5,7 +5,8 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 ARG API_URL="mybudget.today"
-RUN echo $API_URL
+RUN echo "VITE_API_URL=$API_URL" > .env.production
+RUN cat .env.production
 RUN npm run build
 
 FROM nginx:stable-alpine AS production-stage
