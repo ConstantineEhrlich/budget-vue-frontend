@@ -1,12 +1,14 @@
 # https://v2.vuejs.org/v2/cookbook/dockerize-vuejs-app.html
-FROM node:lts-alpine as build-stage
+FROM node:lts-alpine AS build-stage
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
+ARG API_URL="mybudget.today"
+RUN echo "VITE_API_URL=$API_URL" > /app/.env.production
 RUN npm run build
 
-FROM nginx:stable-alpine as production-stage
+FROM nginx:stable-alpine AS production-stage
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 EXPOSE 80
 COPY ./server.conf /etc/nginx/conf.d/default.conf
