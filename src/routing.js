@@ -9,6 +9,7 @@ import TransactionsVue from './components/Transaction/Transactions.vue';
 import TransactionEntryVue from './components/Transaction/TransactionEntry.vue';
 import CategoryListVue from './components/Category/CategoryList.vue';
 import OwnersListVue from './components/Budget/OwnersList.vue';
+import SummaryView from "@/components/Summary/SummaryView.vue";
 
 
 export function generateMenu(user) {
@@ -21,6 +22,7 @@ export function generateMenu(user) {
     }
     
     if (user.budgetId != null) {
+        menu.push(summary);
         menu.push(tranasctions);
     }
     
@@ -69,6 +71,16 @@ const myBudgets = {
 };
 routes.push(myBudgets);
 
+
+const summary = {
+    path: "/summary",
+    component: SummaryView,
+    meta: {
+        icon: "mdi-abacus",
+        text: "Summary",
+    }
+};
+routes.push(summary);
 
 const tranasctions = {
     path: "/transactions",

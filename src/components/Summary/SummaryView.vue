@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import MonthlySummary from "./MontlySummary.vue";
 import {useUserState} from "@/components/User/userState";
+import {getSummaryByCategory} from "@/components/Summary/summaryController";
 
 const years = [2023, 2024, 2025];
 const periods = [
@@ -25,45 +26,16 @@ const summaryData = ref([]);
 
 const user = useUserState();
 
-function updateView() {
+async function updateView() {
   const year = selectedYear.value;
   const period = selectedPeriod.value;
-  summaryData.value = getMockData(year, period);
+  summaryData.value = await getSummaryByCategory(user.budgetId, year, period);
 }
 
 function setCurrentYearAndMonth() {
   const currentDate = new Date();
   selectedYear.value = currentDate.getFullYear();
   selectedPeriod.value = currentDate.getMonth() + 1; // getMonth() is zero-based
-}
-
-function getMockData(year, period) {
-  return [
-    {
-      year: year,
-      period: period,
-      type: 5,
-      categoryId: "salary",
-      count: 1,
-      amount: 120000
-    },
-    {
-      year: year,
-      period: period,
-      type: 10,
-      categoryId: "demo",
-      count: 2,
-      amount: 5774
-    },
-    {
-      year: year,
-      period: period,
-      type: 10,
-      categoryId: "food",
-      count: 2,
-      amount: 431
-    }
-  ];
 }
 
 setCurrentYearAndMonth();
@@ -79,24 +51,24 @@ updateView();
             v-model="selectedYear"
             :items="years"
             label="Year"
-            @change="updateView"
+            @update:menu="updateView"
         />
       </v-col>
       <v-col cols="6">
         <v-select
             v-model="selectedPeriod"
             :items="periods"
-            item-text="text"
+            item-title="text"
             item-value="value"
             label="Month"
-            @change="updateView"
+            @update:menu="updateView"
         />
       </v-col>
     </v-row>
 
     <v-row>
       <v-col>
-        <MonthlySummary :data="summaryData" />
+        <MonthlySummary :data="summaryData" :budget="user.budget" />
       </v-col>
     </v-row>
   </v-container>
