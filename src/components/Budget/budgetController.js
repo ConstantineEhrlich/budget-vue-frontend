@@ -69,9 +69,12 @@ export async function removeOwner(budgetId, ownerId) {
     }
 }
 
-export async function updateBudget() {
+export async function updateBudget(budgetId, budget) {
     try {
-
+        const response = await api.put(`budgets/${budgetId}`, {
+            description: budget.description,
+            isPrivate: budget.isPrivate,
+        })
     } catch (error) {
         throw error;
     }
