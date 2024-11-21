@@ -38,13 +38,11 @@ const incomeData = computed(() => {
     // The calculation of balance for income is reverse than for expense and recurring
     const incomeBlc = incomeAct - incomeFcs;
     incomeCat.balanceText = incomeBlc.toLocaleString("en-US", numRender);
-    console.log('Income Category Data:', incomeCat);
   }
 
   result.Length = result.Categories.length;
-  console.log('Income Data Result:', result);
   return result;
-})
+});
 
 const recurringData = computed(() => {
   const result = {
@@ -58,13 +56,11 @@ const recurringData = computed(() => {
     recurringCat.actualText = recurAct.toLocaleString("en-US", numRender);
     recurringCat.forecastText = recurringCat.actualText;
     recurringCat.balanceText = Number(0).toLocaleString("en-US", numRender);
-    console.log('Recurring Category Data:', recurringCat);
   }
 
   result.Length = result.Categories.length;
-  console.log('Recurring Data Result:', result);
   return result;
-})
+});
 
 const expenseData = computed(() => {
   const result = {
@@ -76,18 +72,15 @@ const expenseData = computed(() => {
   for (const expenseCat of result.Categories) {
     const expAct = getCategoryData(expenseCat.id, transTypes.get("Expense"));
     expenseCat.actualText = expAct.toLocaleString("en-US", numRender);
-    const expFcs =  getCategoryData(expenseCat.id, transTypes.get("Forecast"));
+    const expFcs = getCategoryData(expenseCat.id, transTypes.get("Forecast"));
     expenseCat.forecastText = expFcs.toLocaleString("en-US", numRender);
     const expBlc = expFcs - expAct;
     expenseCat.balanceText = expBlc.toLocaleString("en-US", numRender);
-
-    console.log('Expense Category Data:', expenseCat);
   }
 
   result.Length = result.Categories.length;
-  console.log('Expense Data Result:', result);
   return result;
-})
+});
 
 function getRecurringCategories(data, targetType) {
   const cats = new Set();
@@ -100,7 +93,12 @@ function getRecurringCategories(data, targetType) {
 
   // Convert the Set to an array before returning
   const result = [];
-  cats.forEach(categoryId => result.push(getCategoryFromBudget(user.budget, categoryId)));
+  for(const catId of cats) {
+    result.push({
+      id: catId,
+      description: getCategoryFromBudget(user.budget, catId).description,
+    })
+  }
 
   return result;
 }
@@ -136,7 +134,8 @@ const getCategoryData = (categoryId, type) => {
             </thead>
             <tbody>
             <!-- Income -->
-            <tr v-for="(incomeCat, index) in incomeData.Categories" :key="'income-' + incomeCat.id">
+            <template v-if="incomeData.Categories.length > 0">
+            <tr v-for="(incomeCat, index) in incomeData.Categories" :key="incomeCat.id">
               <td v-if="index === 0" class="rotated-text" :rowspan="incomeData.Length">Income</td>
               <td>{{ incomeCat.description }}</td>
               <td class="text-right">{{ incomeCat.actualText }}</td>
@@ -144,9 +143,11 @@ const getCategoryData = (categoryId, type) => {
               <td class="text-right">{{ incomeCat.balanceText }}</td>
             </tr>
             <tr class="subtotal-row"><td colspan="2">TOTAL:</td></tr>
+            </template>
 
             <!-- Recurring -->
-            <tr v-for="(recurCat, index) in recurringData.Categories" :key="'recurring-' + recurCat.id">
+            <template v-if="recurringData.Categories.length > 0">
+            <tr v-for="(recurCat, index) in recurringData.Categories" :key="recurCat.id">
               <td v-if="index === 0" class="rotated-text" :rowspan="recurringData.Length">Recurring</td>
               <td>{{ recurCat.description }}</td>
               <td class="text-right">{{ recurCat.actualText }}</td>
@@ -154,9 +155,11 @@ const getCategoryData = (categoryId, type) => {
               <td class="text-right">{{ recurCat.balanceText }}</td>
             </tr>
             <tr class="subtotal-row"><td colspan="2">TOTAL:</td></tr>
+            </template>
 
             <!-- Expense -->
-            <tr v-for="(expenseCat, index) in expenseData.Categories" :key="'expense-' + expenseCat.id">
+            <template v-if="expenseData.Categories.length > 0">
+            <tr v-for="(expenseCat, index) in expenseData.Categories" :key="expenseCat.id">
               <td v-if="index === 0" class="rotated-text" :rowspan="expenseData.Length">Expense</td>
               <td>{{ expenseCat.description }}</td>
               <td class="text-right">{{ expenseCat.actualText }}</td>
@@ -164,17 +167,10 @@ const getCategoryData = (categoryId, type) => {
               <td class="text-right">{{ expenseCat.balanceText }}</td>
             </tr>
             <tr class="subtotal-row"><td colspan="2">TOTAL:</td></tr>
+            </template>
 
             </tbody>
           </table>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <div>
-            Data:<br/>
-            <pre>{{ props.data }}}}</pre>
-          </div>
         </v-col>
       </v-row>
     </v-container>
