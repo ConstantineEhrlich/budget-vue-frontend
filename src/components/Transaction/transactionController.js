@@ -1,7 +1,7 @@
 import {api} from "../api.js";
 
-export const transTypes = new Map([["Income", 5], ["Expense", 10], ["Forecast", 15]]);
-export const typesTrans = new Map([[5, "Income"], [10, "Expense"], [15, "Forecast"]]);
+export const transTypes = new Map([["Income", 5], ["Expense", 10], ["Forecast", 15], ["Recurring", 20]]);
+export const typesTrans = new Map([[5, "Income"], [10, "Expense"], [15, "Forecast"], [20, "Recurring"]]);
 
 export async function getTransactions(budgetId) {
     try {
