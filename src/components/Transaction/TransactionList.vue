@@ -4,6 +4,7 @@ import {getBudget} from "../Budget/budgetController";
 import {getTransactions} from "../Transaction/transactionController";
 import {useUserState} from "../User/userState";
 import {SOCKET_URL} from "../api";
+import {numRender, dateRender} from "../Transaction/transactionController";
 
 import {transTypes} from "../Transaction/transactionController";
 
@@ -27,18 +28,6 @@ const data = reactive({
   values: null
 });
 
-
-const dateRender = {
-  month: 'short',
-  day: 'numeric'
-};
-
-const numRender = {
-  style: "decimal",
-  useGrouping: true,
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
-};
 
 async function getTableData() {
   try {
@@ -89,5 +78,5 @@ socket.addEventListener("message", async () => {
   </div>
 </template>
 
-<style>
+<style scoped>
 </style>

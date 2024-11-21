@@ -4,6 +4,9 @@ import MonthlySummary from "./MontlySummary.vue";
 import {useUserState} from "@/components/User/userState";
 import {getSummaryByCategory} from "@/components/Summary/summaryController";
 
+const user = useUserState();
+let loadFinished = ref(false);
+
 const years = [2023, 2024, 2025];
 const periods = [
   { text: 'January', value: 1 },
@@ -24,12 +27,11 @@ const selectedYear = ref(years[1]);
 const selectedPeriod = ref(periods[0].value);
 const summaryData = ref([]);
 
-const user = useUserState();
-
 async function updateView() {
   const year = selectedYear.value;
   const period = selectedPeriod.value;
   summaryData.value = await getSummaryByCategory(user.budgetId, year, period);
+  loadFinished.value = true;
 }
 
 function setCurrentYearAndMonth() {
@@ -44,7 +46,7 @@ updateView();
 </script>
 
 <template>
-  <v-container>
+  <v-container v-if="loadFinished">
     <v-row>
       <v-col cols="6">
         <v-select
@@ -68,7 +70,7 @@ updateView();
 
     <v-row>
       <v-col>
-        <MonthlySummary :data="summaryData" :budget="user.budget" />
+        <MonthlySummary :data="summaryData" />
       </v-col>
     </v-row>
   </v-container>
