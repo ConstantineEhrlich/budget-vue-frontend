@@ -25,7 +25,10 @@ const tableData = ref(null);
 const incomeData = computed(() => {
   const result = {
     Categories: [],
-    Length: 0
+    Length: 0,
+    TotalActual: 0,
+    TotalForecast: 0,
+    TotalBalance: 0,
   };
 
   result.Categories = user.budget.categories.filter(category => category.defaultType === transTypes.get("Income"));
@@ -38,6 +41,9 @@ const incomeData = computed(() => {
     // The calculation of balance for income is reverse than for expense and recurring
     const incomeBlc = incomeAct - incomeFcs;
     incomeCat.balanceText = incomeBlc.toLocaleString("en-US", numRender);
+    result.TotalActual = result.TotalActual + incomeAct;
+    result.TotalForecast = result.TotalForecast + incomeFcs;
+    result.TotalBalance = result.TotalBalance + incomeBlc;
   }
 
   result.Length = result.Categories.length;
@@ -47,7 +53,10 @@ const incomeData = computed(() => {
 const recurringData = computed(() => {
   const result = {
     Categories: [],
-    Length: 0
+    Length: 0,
+    TotalActual: 0,
+    TotalForecast: 0,
+    TotalBalance: 0,
   };
 
   result.Categories = getRecurringCategories(props.data, transTypes.get("Recurring"));
@@ -56,6 +65,9 @@ const recurringData = computed(() => {
     recurringCat.actualText = recurAct.toLocaleString("en-US", numRender);
     recurringCat.forecastText = recurringCat.actualText;
     recurringCat.balanceText = Number(0).toLocaleString("en-US", numRender);
+    result.TotalActual = result.TotalActual + recurAct;
+    result.TotalForecast = result.TotalForecast + recurAct;
+    result.TotalBalance = 0;
   }
 
   result.Length = result.Categories.length;
@@ -65,7 +77,10 @@ const recurringData = computed(() => {
 const expenseData = computed(() => {
   const result = {
     Categories: [],
-    Length: 0
+    Length: 0,
+    TotalActual: 0,
+    TotalForecast: 0,
+    TotalBalance: 0,
   };
 
   result.Categories = user.budget.categories.filter(category => category.defaultType === transTypes.get("Expense"));
@@ -76,6 +91,9 @@ const expenseData = computed(() => {
     expenseCat.forecastText = expFcs.toLocaleString("en-US", numRender);
     const expBlc = expFcs - expAct;
     expenseCat.balanceText = expBlc.toLocaleString("en-US", numRender);
+    result.TotalActual = result.TotalActual + expAct;
+    result.TotalForecast = result.TotalForecast + expFcs;
+    result.TotalBalance = result.TotalBalance + expBlc;
   }
 
   result.Length = result.Categories.length;
@@ -135,38 +153,53 @@ const getCategoryData = (categoryId, type) => {
             <tbody>
             <!-- Income -->
             <template v-if="incomeData.Categories.length > 0">
-            <tr v-for="(incomeCat, index) in incomeData.Categories" :key="incomeCat.id">
+            <tr v-for="(incomeCat, index) in incomeData.Categories">
               <td v-if="index === 0" class="rotated-text" :rowspan="incomeData.Length">Income</td>
               <td>{{ incomeCat.description }}</td>
               <td class="text-right">{{ incomeCat.actualText }}</td>
               <td class="text-right">{{ incomeCat.forecastText }}</td>
               <td class="text-right">{{ incomeCat.balanceText }}</td>
             </tr>
-            <tr class="subtotal-row"><td colspan="2">TOTAL:</td></tr>
+            <tr>
+              <td colspan="2" class="subtotal-header">TOTAL:</td>
+              <td class="text-right subtotal-text">{{ Number(incomeData.TotalActual).toLocaleString("en-US", numRender) }}</td>
+              <td class="text-right subtotal-text">{{ Number(incomeData.TotalForecast).toLocaleString("en-US", numRender) }}</td>
+              <td class="text-right subtotal-text">{{ Number(incomeData.TotalBalance).toLocaleString("en-US", numRender) }}</td>
+            </tr>
             </template>
 
             <!-- Recurring -->
             <template v-if="recurringData.Categories.length > 0">
-            <tr v-for="(recurCat, index) in recurringData.Categories" :key="recurCat.id">
+            <tr v-for="(recurCat, index) in recurringData.Categories">
               <td v-if="index === 0" class="rotated-text" :rowspan="recurringData.Length">Recurring</td>
               <td>{{ recurCat.description }}</td>
               <td class="text-right">{{ recurCat.actualText }}</td>
               <td class="text-right">{{ recurCat.forecastText }}</td>
               <td class="text-right">{{ recurCat.balanceText }}</td>
             </tr>
-            <tr class="subtotal-row"><td colspan="2">TOTAL:</td></tr>
+            <tr>
+              <td colspan="2" class="subtotal-header">TOTAL:</td>
+              <td class="text-right subtotal-text">{{ Number(recurringData.TotalActual).toLocaleString("en-US", numRender) }}</td>
+              <td class="text-right subtotal-text">{{ Number(recurringData.TotalForecast).toLocaleString("en-US", numRender) }}</td>
+              <td class="text-right subtotal-text">{{ Number(recurringData.TotalBalance).toLocaleString("en-US", numRender) }}</td>
+            </tr>
             </template>
 
             <!-- Expense -->
             <template v-if="expenseData.Categories.length > 0">
-            <tr v-for="(expenseCat, index) in expenseData.Categories" :key="expenseCat.id">
+            <tr v-for="(expenseCat, index) in expenseData.Categories">
               <td v-if="index === 0" class="rotated-text" :rowspan="expenseData.Length">Expense</td>
               <td>{{ expenseCat.description }}</td>
               <td class="text-right">{{ expenseCat.actualText }}</td>
               <td class="text-right">{{ expenseCat.forecastText }}</td>
               <td class="text-right">{{ expenseCat.balanceText }}</td>
             </tr>
-            <tr class="subtotal-row"><td colspan="2">TOTAL:</td></tr>
+            <tr>
+              <td colspan="2" class="subtotal-header">TOTAL:</td>
+              <td class="text-right subtotal-text">{{ Number(expenseData.TotalActual).toLocaleString("en-US", numRender) }}</td>
+              <td class="text-right subtotal-text">{{ Number(expenseData.TotalForecast).toLocaleString("en-US", numRender) }}</td>
+              <td class="text-right subtotal-text">{{ Number(expenseData.TotalBalance).toLocaleString("en-US", numRender) }}</td>
+            </tr>
             </template>
 
             </tbody>
@@ -210,6 +243,7 @@ const getCategoryData = (categoryId, type) => {
 }
 .text-right {
   text-align: right;
+  font-family: monospace;
 }
 
 .header-type {
@@ -237,10 +271,15 @@ const getCategoryData = (categoryId, type) => {
   font-weight: bold;
 }
 
-.subtotal-row{
+.subtotal-header{
   background-color: #ffffff !important;
   text-align: right;
   font-weight: bolder;
+}
+
+.subtotal-text{
+  font-weight: bolder;
+  background-color: #ffffff !important;
 }
 
 
