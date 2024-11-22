@@ -56,7 +56,7 @@ function refreshCategories() {
     case "Expense":
       categories.value = cats.filter(c => c.defaultType === 10).map(c => c.description);
       break;
-    case "Forecast":
+    default:
       categories.value = cats.map(c => c.description);
       break;
   }
