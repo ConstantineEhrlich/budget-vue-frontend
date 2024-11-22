@@ -263,8 +263,6 @@ const getCategoryData = (categoryId, type) => {
 }
 
 .rotated-text {
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
   text-align: center;
   background-color: #d57928;
   color: #ffffff;
