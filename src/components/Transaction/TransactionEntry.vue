@@ -261,8 +261,9 @@ async function submitForm() {
 
 .v-combobox,
 .v-text-field,
-.v-textarea {
+.v-textarea
+input {
   width: 100%;
-  font-size: 16px;
+  font-size: 16px !important;
 }
 </style>
