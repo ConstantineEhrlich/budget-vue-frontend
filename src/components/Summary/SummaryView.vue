@@ -79,17 +79,18 @@ updateView();
     </v-row>
 
     <v-row>
-      <BalanceTable :data="balanceData" />
+      <v-col>
+        <MonthlySummary :data="summaryData" />
+      </v-col>
     </v-row>
 
     <v-row>
       <v-col>
-        <MonthlySummary :data="summaryData" />
+        <BalanceTable :data="balanceData" />
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <style scoped>
-
 </style>
