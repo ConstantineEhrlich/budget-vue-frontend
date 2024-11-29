@@ -2,7 +2,8 @@
 import { ref } from 'vue';
 import MonthlySummary from "./MontlySummary.vue";
 import {useUserState} from "@/components/User/userState";
-import {getSummaryByCategory} from "@/components/Summary/summaryController";
+import {getSummaryByCategory, getOpeningBalance, getClosingBalance, getSummaryByOwner} from "@/components/Summary/summaryController";
+import BalanceTable from "@/components/Summary/BalanceTable.vue";
 
 const user = useUserState();
 let loadFinished = ref(false);
@@ -26,11 +27,20 @@ const periods = [
 const selectedYear = ref(years[1]);
 const selectedPeriod = ref(periods[0].value);
 const summaryData = ref([]);
+const balanceData = ref({
+  openingBalance: null,
+  summaryByOwner: null,
+  closingBalance: null,
+});
 
 async function updateView() {
   const year = selectedYear.value;
   const period = selectedPeriod.value;
   summaryData.value = await getSummaryByCategory(user.budgetId, year, period);
+
+  balanceData.value.openingBalance = await getOpeningBalance(user.budgetId, year, period);
+  balanceData.value.summaryByOwner = await getSummaryByOwner(user.budgetId, year, period);
+  balanceData.value.closingBalance = await getClosingBalance(user.budgetId, year, period);
   loadFinished.value = true;
 }
 
@@ -66,6 +76,10 @@ updateView();
             @update:menu="updateView"
         />
       </v-col>
+    </v-row>
+
+    <v-row>
+      <BalanceTable :data="balanceData" />
     </v-row>
 
     <v-row>
