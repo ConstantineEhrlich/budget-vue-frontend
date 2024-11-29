@@ -263,5 +263,6 @@ async function submitForm() {
 .v-text-field,
 .v-textarea {
   width: 100%;
+  font-size: 16px;
 }
 </style>
