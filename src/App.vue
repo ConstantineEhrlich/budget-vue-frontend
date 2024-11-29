@@ -51,7 +51,4 @@ watch(
 </template>
 
 <style scoped>
-input, textarea, select {
-  font-size: 16px;
-}
 </style>

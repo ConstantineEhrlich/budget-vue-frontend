@@ -242,3 +242,9 @@ async function submitForm() {
     <p>{{ formSubmit.message }}</p>
   </v-container>
 </template>
+
+<style scoped>
+v-combobox {
+  font-size: 16px !important;
+}
+</style>
