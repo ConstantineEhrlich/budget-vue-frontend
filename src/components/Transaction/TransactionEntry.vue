@@ -14,11 +14,19 @@ const transactionForm = ref(null);
 const formdata = reactive({
   category: "",
   amount: null,
+  date: get_date_with_offset(),
   description: "",
   transactionType: "",
   owner: ""
 });
 const owners = ref([]);
+
+function get_date_with_offset(){
+  // calculate local time in ISO format (SO 12413243) - including tz offset
+  const utcDate = new Date();
+  const offset = utcDate.getTimezoneOffset() * 60 * 1000;
+  return new Date(utcDate - offset);
+}
 
 
 // This variable is used to prevent form interaction while loading
@@ -121,11 +129,6 @@ async function submitForm() {
 
   // try submitting the form
   try {
-    // calculate local time in ISO format (SO 12413243) - including tz offset
-    const t = new Date();
-    const offset = t.getTimezoneOffset() * 60 * 1000;
-    const tLocal = new Date(t - offset);
-
 
     const transactionDate = new Date();
     const payload = {
@@ -134,9 +137,9 @@ async function submitForm() {
       description: formdata.description,
       transactionType: transTypes.get(formdata.transactionType),
       ownerId: user.budget.owners.filter(o => o.name === formdata.owner)[0].id,
-      date: tLocal.toISOString(),
-      year: tLocal.getFullYear(),
-      period: tLocal.getMonth() + 1
+      date: formdata.date.toISOString(),
+      year: formdata.date.getFullYear(),
+      period: formdata.date.getMonth() + 1
     };
 
     const response = await addTransaction(user.budgetId, payload);
@@ -209,6 +212,23 @@ async function submitForm() {
           type="text"
 
       ></v-textarea>
+
+      <v-expansion-panels>
+        <v-expansion-panel style="margin-bottom: 15px">
+          <v-expansion-panel-title>
+            Date: {{formdata.date.toLocaleDateString("en-IL")}}
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
+            <v-date-picker
+                v-model="formdata.date"
+                :disabled="loading"
+                label="Transaction Date"
+                scrollable
+                :rules="[rules.validDate]"
+            ></v-date-picker>
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+      </v-expansion-panels>
 
       <v-btn :disabled="loading" type="submit">
         {{ loading ? "Loading..." : "Submit" }}
