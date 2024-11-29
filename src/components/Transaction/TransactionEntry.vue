@@ -174,7 +174,7 @@ async function submitForm() {
   <v-container v-else-if="!formSubmit.success">
     <h1>New entry</h1>
     <p v-if="user.budget"><b>Budget file:</b> {{ user.budget.slug }} </p><br>
-    <v-form ref="transactionForm" :disabled="loading" style="max-width:400px" @submit.prevent="submitForm">
+    <v-form ref="transactionForm" :disabled="loading" @submit.prevent="submitForm" class="transaction-form">
       <v-combobox
           v-model="formdata.owner"
           :items="owners.map(o => o.name)"
@@ -244,7 +244,24 @@ async function submitForm() {
 </template>
 
 <style scoped>
-.v-combobox ::v-deep input {
-  font-size: 16px !important;
+.transaction-form {
+  max-width: 600px; /* Adjust as needed */
+  margin: 0 auto;   /* Center the form on larger screens */
+  padding: 0 16px;  /* Add some horizontal padding */
+}
+
+@media (max-width: 600px) {
+  .transaction-form {
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0 8px; /* Reduce padding on small screens */
+  }
+}
+
+.v-combobox,
+.v-text-field,
+.v-textarea {
+  width: 100%;
 }
 </style>
