@@ -244,7 +244,7 @@ async function submitForm() {
 </template>
 
 <style scoped>
-v-combobox {
+.v-combobox input{
   font-size: 16px !important;
 }
 </style>
