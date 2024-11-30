@@ -213,15 +213,15 @@ const getCategoryData = (categoryId, type) => {
 <style scoped>
 
 .summary-table {
-  width: 60%;
+  min-width: 50%;
+  max-width: 50%;
   border-collapse: collapse;
-  margin: 20px 0;
-  font-size: .75em;
+  font-size: .8em;
   text-align: left;
 }
 .summary-table th,
 .summary-table td {
-  padding: 12px 15px;
+  padding: 8px 12px;
 }
 .summary-table thead tr {
   background-color: #d57928;

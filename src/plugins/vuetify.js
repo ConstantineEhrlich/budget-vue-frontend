@@ -5,6 +5,7 @@ import 'vuetify/dist/vuetify.min.css';
 import {createVuetify} from 'vuetify';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
+import {VDatePicker} from "vuetify/labs/components";
 
 export function buildVuetify() {
     return createVuetify({
@@ -13,6 +14,7 @@ export function buildVuetify() {
             VDataTable,
             VDataTableServer,
             VDataTableVirtual,
+            VDatePicker
         },
         directives: directives,
     });
