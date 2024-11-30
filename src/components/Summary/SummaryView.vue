@@ -4,7 +4,7 @@ import MonthlySummary from "./MontlySummary.vue";
 import {useUserState} from "@/components/User/userState";
 
 import {getSummaryByCategory, getOpeningBalance, getClosingBalance, getSummaryByOwner} from "@/components/Summary/summaryController";
-import BalanceTabl
+import BalanceTable from "@/components/Summary/BalanceTable.vue";
 
 const user = useUserState();
 let loadFinished = ref(false);
@@ -85,7 +85,6 @@ updateView();
         <MonthlySummary :data="summaryData" />
       </v-col>
     </v-row>
-
 
     <v-row>
       <v-col>
