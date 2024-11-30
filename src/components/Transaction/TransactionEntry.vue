@@ -14,11 +14,19 @@ const transactionForm = ref(null);
 const formdata = reactive({
   category: "",
   amount: null,
+  date: get_date_with_offset(),
   description: "",
   transactionType: "",
   owner: ""
 });
 const owners = ref([]);
+
+function get_date_with_offset(){
+  // calculate local time in ISO format (SO 12413243) - including tz offset
+  const utcDate = new Date();
+  const offset = utcDate.getTimezoneOffset() * 60 * 1000;
+  return new Date(utcDate - offset);
+}
 
 
 // This variable is used to prevent form interaction while loading
@@ -121,11 +129,6 @@ async function submitForm() {
 
   // try submitting the form
   try {
-    // calculate local time in ISO format (SO 12413243) - including tz offset
-    const t = new Date();
-    const offset = t.getTimezoneOffset() * 60 * 1000;
-    const tLocal = new Date(t - offset);
-
 
     const transactionDate = new Date();
     const payload = {
@@ -134,9 +137,9 @@ async function submitForm() {
       description: formdata.description,
       transactionType: transTypes.get(formdata.transactionType),
       ownerId: user.budget.owners.filter(o => o.name === formdata.owner)[0].id,
-      date: tLocal.toISOString(),
-      year: tLocal.getFullYear(),
-      period: tLocal.getMonth() + 1
+      date: formdata.date.toISOString(),
+      year: formdata.date.getFullYear(),
+      period: formdata.date.getMonth() + 1
     };
 
     const response = await addTransaction(user.budgetId, payload);
@@ -171,7 +174,7 @@ async function submitForm() {
   <v-container v-else-if="!formSubmit.success">
     <h1>New entry</h1>
     <p v-if="user.budget"><b>Budget file:</b> {{ user.budget.slug }} </p><br>
-    <v-form ref="transactionForm" :disabled="loading" style="max-width:400px" @submit.prevent="submitForm">
+    <v-form ref="transactionForm" :disabled="loading" @submit.prevent="submitForm" class="transaction-form">
       <v-combobox
           v-model="formdata.owner"
           :items="owners.map(o => o.name)"
@@ -210,6 +213,23 @@ async function submitForm() {
 
       ></v-textarea>
 
+      <v-expansion-panels>
+        <v-expansion-panel style="margin-bottom: 15px">
+          <v-expansion-panel-title>
+            Date: {{formdata.date.toLocaleDateString("en-IL")}}
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
+            <v-date-picker
+                v-model="formdata.date"
+                :disabled="loading"
+                label="Transaction Date"
+                scrollable
+                :rules="[rules.validDate]"
+            ></v-date-picker>
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+      </v-expansion-panels>
+
       <v-btn :disabled="loading" type="submit">
         {{ loading ? "Loading..." : "Submit" }}
       </v-btn>
@@ -222,3 +242,28 @@ async function submitForm() {
     <p>{{ formSubmit.message }}</p>
   </v-container>
 </template>
+
+<style scoped>
+.transaction-form {
+  max-width: 600px; /* Adjust as needed */
+  margin: 0 auto;   /* Center the form on larger screens */
+  padding: 0 16px;  /* Add some horizontal padding */
+}
+
+@media (max-width: 600px) {
+  .transaction-form {
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0 8px; /* Reduce padding on small screens */
+  }
+}
+
+.v-combobox,
+.v-text-field,
+.v-textarea
+input {
+  width: 100%;
+  font-size: 16px !important;
+}
+</style>
