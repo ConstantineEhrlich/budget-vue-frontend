@@ -213,7 +213,6 @@ const getCategoryData = (categoryId, type) => {
 <style scoped>
 
 .summary-table {
-
   min-width: 50%;
   max-width: 50%;
   border-collapse: collapse;
@@ -222,7 +221,6 @@ const getCategoryData = (categoryId, type) => {
 }
 .summary-table th,
 .summary-table td {
-
   padding: 8px 12px;
 }
 .summary-table thead tr {
