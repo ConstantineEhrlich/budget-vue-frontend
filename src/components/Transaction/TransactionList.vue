@@ -43,7 +43,7 @@ async function getTableData() {
         category: budget.categories.filter(c => c.id === t.categoryId)[0].description,
         owner: budget.owners.filter(o => o.id === t.ownerId)[0].name,
         amount: t.amount.toLocaleString("en-US", numRender),
-        desciption: t.description,
+        description: t.description,
       });
     })
   } catch (error) {
