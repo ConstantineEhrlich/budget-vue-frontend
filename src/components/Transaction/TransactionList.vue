@@ -6,7 +6,7 @@ import {useUserState} from "../User/userState";
 import {SOCKET_URL} from "../api";
 import {numRender, dateRender} from "../Transaction/transactionController";
 
-import {transTypes} from "../Transaction/transactionController";
+import {typesTrans} from "../Transaction/transactionController";
 
 
 let loadFinished = ref(false);
@@ -38,7 +38,7 @@ async function getTableData() {
       data.values.push({
         period: `${t.year}-${t.period}`,
         recordedAt: new Date(t.transactionDate).toLocaleDateString('en-US', dateRender),
-        transactionType: transTypes.get(t.transactionType),
+        transactionType: typesTrans.get(t.transactionType),
         category: budget.categories.filter(c => c.id === t.categoryId)[0].description,
         owner: budget.owners.filter(o => o.id === t.ownerId)[0].name,
         amount: t.amount.toLocaleString("en-US", numRender),
