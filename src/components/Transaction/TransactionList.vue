@@ -17,11 +17,12 @@ let itemsPerPage = ref(10);
 
 const headers = [
   {title: 'Period', key: 'period', align: 'start', sortable: true},
-  {title: 'Date', key: 'recordedAt', align: 'start', sortable: false},
+  {title: 'Date', key: 'recordedAt', align: 'start', sortable: true},
   {title: 'Type', key: 'transactionType', align: 'start', sortable: true},
   {title: 'Category', key: 'category', align: 'start', sortable: true},
   {title: 'Owner', key: 'owner', align: 'start', sortable: true},
-  {title: 'Amount', key: 'amount', align: 'end', sortable: false}
+  {title: 'Amount', key: 'amount', align: 'end', sortable: false},
+  {title: 'Description', key: 'description', align: 'start', sortable: false},
 ]
 
 const data = reactive({
@@ -42,6 +43,7 @@ async function getTableData() {
         category: budget.categories.filter(c => c.id === t.categoryId)[0].description,
         owner: budget.owners.filter(o => o.id === t.ownerId)[0].name,
         amount: t.amount.toLocaleString("en-US", numRender),
+        description: t.description,
       });
     })
   } catch (error) {
