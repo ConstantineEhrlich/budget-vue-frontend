@@ -135,150 +135,361 @@ const getCategoryData = (categoryId, type) => {
 </script>
 
 <template>
-  <div>
-    <v-container>
-      <v-row>
-        <v-col>
-          <h3>Monthly summary</h3>
-          <table class="summary-table">
-            <thead>
-            <tr>
-              <th class="header-type">Type</th>
-              <th class="header-category">Category</th>
-              <th class="header-amount">Amount</th>
-              <th class="header-forecast">Forecast</th>
-              <th class="header-balance">Balance</th>
-            </tr>
-            </thead>
-            <tbody>
-            <!-- Income -->
-            <template v-if="incomeData.Categories.length > 0">
-            <tr v-for="(incomeCat, index) in incomeData.Categories">
-              <td v-if="index === 0" class="rotated-text" :rowspan="incomeData.Length">Income</td>
-              <td>{{ incomeCat.description }}</td>
-              <td class="text-right">{{ incomeCat.actualText }}</td>
-              <td class="text-right">{{ incomeCat.forecastText }}</td>
-              <td class="text-right">{{ incomeCat.balanceText }}</td>
-            </tr>
-            <tr>
-              <td colspan="2" class="subtotal-header">TOTAL:</td>
-              <td class="text-right subtotal-text">{{ Number(incomeData.TotalActual).toLocaleString("en-US", numRender) }}</td>
-              <td class="text-right subtotal-text">{{ Number(incomeData.TotalForecast).toLocaleString("en-US", numRender) }}</td>
-              <td class="text-right subtotal-text">{{ Number(incomeData.TotalBalance).toLocaleString("en-US", numRender) }}</td>
-            </tr>
-            </template>
-
-            <!-- Recurring -->
-            <template v-if="recurringData.Categories.length > 0">
-            <tr v-for="(recurCat, index) in recurringData.Categories">
-              <td v-if="index === 0" class="rotated-text" :rowspan="recurringData.Length">Recurring</td>
-              <td>{{ recurCat.description }}</td>
-              <td class="text-right">{{ recurCat.actualText }}</td>
-              <td class="text-right">{{ recurCat.forecastText }}</td>
-              <td class="text-right">{{ recurCat.balanceText }}</td>
-            </tr>
-            <tr>
-              <td colspan="2" class="subtotal-header">TOTAL:</td>
-              <td class="text-right subtotal-text">{{ Number(recurringData.TotalActual).toLocaleString("en-US", numRender) }}</td>
-              <td class="text-right subtotal-text">{{ Number(recurringData.TotalForecast).toLocaleString("en-US", numRender) }}</td>
-              <td class="text-right subtotal-text">{{ Number(recurringData.TotalBalance).toLocaleString("en-US", numRender) }}</td>
-            </tr>
-            </template>
-
-            <!-- Expense -->
-            <template v-if="expenseData.Categories.length > 0">
-            <tr v-for="(expenseCat, index) in expenseData.Categories">
-              <td v-if="index === 0" class="rotated-text" :rowspan="expenseData.Length">Expense</td>
-              <td>{{ expenseCat.description }}</td>
-              <td class="text-right">{{ expenseCat.actualText }}</td>
-              <td class="text-right">{{ expenseCat.forecastText }}</td>
-              <td class="text-right">{{ expenseCat.balanceText }}</td>
-            </tr>
-            <tr>
-              <td colspan="2" class="subtotal-header">TOTAL:</td>
-              <td class="text-right subtotal-text">{{ Number(expenseData.TotalActual).toLocaleString("en-US", numRender) }}</td>
-              <td class="text-right subtotal-text">{{ Number(expenseData.TotalForecast).toLocaleString("en-US", numRender) }}</td>
-              <td class="text-right subtotal-text">{{ Number(expenseData.TotalBalance).toLocaleString("en-US", numRender) }}</td>
-            </tr>
-            </template>
-
-            </tbody>
-          </table>
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
-</template>
-
-<style scoped>
-
-.summary-table {
-  min-width: 50%;
-  max-width: 50%;
-  border-collapse: collapse;
-  font-size: .8em;
-  text-align: left;
+  <div class="monthly-summary-wrapper">
+    <div class="table-responsive">
+      <table class="summary-table">
+        <thead>
+        <tr>
+          <th class="header-type"></th>
+          <th class="header-category"></th>
+          <th class="header-amount">Actual</th>
+          <th class="header-forecast">Budget</th>
+          <th class="header-balance">Balance</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Income -->
+        <template v-if="incomeData.Categories.length > 0">
+          <tr v-for="(incomeCat, index) in incomeData.Categories" :key="`income-${incomeCat.id}`">
+            <td v-if="index === 0" class="type-cell" :rowspan="incomeData.Length">
+              <div class="truncate-text">Income</div>
+            </td>
+            <td class="category-cell">
+              <div class="truncate-text">{{ incomeCat.description }}</div>
+            </td>
+            <td class="text-right">{{ incomeCat.actualText }}</td>
+            <td class="text-right">{{ incomeCat.forecastText }}</td>
+            <td class="text-right">{{ incomeCat.balanceText }}</td>
+          </tr>
+          <tr class="summary-row">
+            <td colspan="2" class="subtotal-header">TOTAL:</td>
+            <td class="text-right subtotal-text">{{ Number(incomeData.TotalActual).toLocaleString("en-US", numRender) }}</td>
+            <td class="text-right subtotal-text">{{ Number(incomeData.TotalForecast).toLocaleString("en-US", numRender) }}</td>
+            <td class="text-right subtotal-text">{{ Number(incomeData.TotalBalance).toLocaleString("en-US", numRender) }}</td>
+          </tr>
+                  </template>
+          
+                  <!-- Recurring -->
+                  <template v-if="recurringData.Categories.length > 0">
+          <tr v-for="(recurCat, index) in recurringData.Categories" :key="`recurring-${recurCat.id}`">
+            <td v-if="index === 0" class="type-cell" :rowspan="recurringData.Length">
+              <div class="truncate-text">Recurring</div>
+            </td>
+            <td class="category-cell">
+              <div class="truncate-text">{{ recurCat.description }}</div>
+            </td>
+            <td class="text-right">{{ recurCat.actualText }}</td>
+            <td class="text-right">{{ recurCat.forecastText }}</td>
+            <td class="text-right">{{ recurCat.balanceText }}</td>
+          </tr>
+          <tr class="summary-row">
+            <td colspan="2" class="subtotal-header">TOTAL:</td>
+            <td class="text-right subtotal-text">{{ Number(recurringData.TotalActual).toLocaleString("en-US", numRender) }}</td>
+            <td class="text-right subtotal-text">{{ Number(recurringData.TotalForecast).toLocaleString("en-US", numRender) }}</td>
+            <td class="text-right subtotal-text">{{ Number(recurringData.TotalBalance).toLocaleString("en-US", numRender) }}</td>
+          </tr>
+                  </template>
+          
+                  <!-- Expense -->
+                  <template v-if="expenseData.Categories.length > 0">
+          <tr v-for="(expenseCat, index) in expenseData.Categories" :key="`expense-${expenseCat.id}`">
+            <td v-if="index === 0" class="type-cell" :rowspan="expenseData.Length">
+              <div class="truncate-text">Expense</div>
+            </td>
+            <td class="category-cell">
+              <div class="truncate-text">{{ expenseCat.description }}</div>
+            </td>
+            <td class="text-right">{{ expenseCat.actualText }}</td>
+            <td class="text-right">{{ expenseCat.forecastText }}</td>
+            <td class="text-right">{{ expenseCat.balanceText }}</td>
+          </tr>
+          <tr class="summary-row">
+            <td colspan="2" class="subtotal-header">TOTAL:</td>
+            <td class="text-right subtotal-text">{{ Number(expenseData.TotalActual).toLocaleString("en-US", numRender) }}</td>
+            <td class="text-right subtotal-text">{{ Number(expenseData.TotalForecast).toLocaleString("en-US", numRender) }}</td>
+            <td class="text-right subtotal-text">{{ Number(expenseData.TotalBalance).toLocaleString("en-US", numRender) }}</td>
+          </tr>
+                  </template>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </template>
+          
+          <style scoped>
+          @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap');
+          
+          .monthly-summary-wrapper {
+            width: 100%;
+            font-family: 'Poppins', sans-serif;
+            margin-bottom: 0;
+          }
+          
+          .table-responsive {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 0;
+          }
+          
+          .summary-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 0.9rem;
+            text-align: left;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 0;
+            table-layout: fixed;
+          }
+          
+          .summary-table th,
+          .summary-table td {
+            padding: 10px 8px;
+            border-bottom: 1px solid #e8e8e8;
+          }
+          
+          .summary-table thead tr {
+            background-color: #d57928;
+            color: #ffffff;
+            text-align: left;
+            font-weight: 600;
+            letter-spacing: 0.4px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+          }
+          
+          .summary-table thead th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+          }
+          
+          .summary-table tbody tr {
+            transition: all 0.2s ease;
+          }
+          
+          .summary-table tbody tr:nth-of-type(even) {
+            background-color: #f8f8f8;
+          }
+          
+          .summary-table tbody tr:last-of-type {
+            border-bottom: 2px solid #d57928;
+          }
+          
+          .summary-table tbody tr:hover {
+            background-color: rgba(213, 121, 40, 0.05);
+            transform: translateY(-1px);
+          }
+          
+          .text-right {
+            text-align: right;
+            font-family: 'Roboto Mono', monospace;
+            font-weight: 500;
+            letter-spacing: -0.5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          
+          .truncate-text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+          }
+          
+          .category-cell {
+            max-width: 200px;
+          }
+          
+          .header-type {
+            width: 9%;
+          }
+          
+          .header-category {
+            width: 34%;
+          }
+          
+          .header-amount,
+          .header-forecast,
+          .header-balance {
+            width: 19%;
+            text-align: right;
+          }
+          
+          .type-cell {
+            text-align: center;
+            background-color: #d57928;
+            color: #ffffff;
+            font-weight: 600;
+            vertical-align: middle;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+          }
+          
+          .subtotal-header {
+            text-align: right;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+            padding-right: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          
+          .subtotal-text {
+            font-weight: 700;
+            letter-spacing: 0.4px;
+            font-size: inherit;
+          }
+          
+          .summary-row {
+            background-color: rgba(213, 121, 40, 0.08) !important;
+            border-top: 1px solid rgba(213, 121, 40, 0.3);
+            border-bottom: 1px solid rgba(213, 121, 40, 0.3) !important;
+          }
+          
+          .summary-table td {
+            padding-top: 10px;
+            padding-bottom: 10px;
+          }
+          
+          @media (max-width: 768px) {
+            .summary-table {
+              font-size: 0.8rem;
+            }
+            
+            .summary-table th,
+            .summary-table td {
+              padding: 8px 6px;
+            }
+            
+            .summary-table thead th {
+              padding-top: 10px;
+              padding-bottom: 10px;
+              font-size: 0.8rem;
+            }
+            
+            .type-cell {
+              font-size: 0.75rem;
+            }
+            
+            .category-cell {
+              max-width: 150px;
+            }
+            
+            .header-category {
+              width: 32%;
+            }
+            
+            .header-type {
+              width: 10%;
+            }
+            
+            .summary-table td {
+              padding-top: 8px;
+              padding-bottom: 8px;
+            }
+            
+            .text-right, .subtotal-text {
+              font-size: 0.8rem;
+            }
+          }
+          
+          @media (max-width: 640px) {
+            .summary-table {
+              font-size: 0.75rem;
+            }
+            
+            .summary-table th,
+            .summary-table td {
+              padding: 6px 4px;
+            }
+            
+            .summary-table thead th {
+              font-size: 0.75rem;
+              letter-spacing: 0.2px;
+              padding-top: 8px;
+              padding-bottom: 8px;
+            }
+            
+            .type-cell {
+              font-size: 0.7rem;
+            }
+            
+            .header-category {
+              width: 30%;
+            }
+            
+            .header-type {
+              width: 12%;
+            }
+            
+            .header-amount,
+            .header-forecast,
+            .header-balance {
+              width: 19%;
+            }
+            
+            .summary-table td {
+              padding-top: 6px;
+              padding-bottom: 6px;
+            }
+            
+            .category-cell {
+              max-width: 100px;
+            }
+            
+            .text-right, .subtotal-text {
+              font-size: 0.75rem;
+            }
+          }
+          
+          @media (max-width: 480px) {
+            .summary-table {
+              font-size: 0.7rem;
+            }
+            
+            .summary-table th,
+            .summary-table td {
+              padding: 5px 3px;
+            }
+            
+            .summary-table thead th {
+              font-size: 0.65rem;
+              letter-spacing: 0;
+              padding-top: 6px;
+              padding-bottom: 6px;
+            }
+            
+            .type-cell {
+              font-size: 0.65rem;
+              letter-spacing: 0;
+              padding: 2px;
+            }
+            
+            .header-type {
+              width: 11%;
+            }
+            
+            .header-category {
+              width: 29%;
+            }
+            
+            .header-amount,
+            .header-forecast,
+            .header-balance {
+              width: 20%;
+            }
+            
+            .category-cell {
+              max-width: 85px;
+            }
+            
+            .text-right, .subtotal-text {
+              font-size: 0.7rem;
+  }
 }
-.summary-table th,
-.summary-table td {
-  padding: 8px 12px;
-}
-.summary-table thead tr {
-  background-color: #d57928;
-  color: #ffffff;
-  text-align: left;
-  font-weight: bold;
-}
-.summary-table tbody tr {
-  border-bottom: 1px solid #dddddd;
-}
-.summary-table tbody tr:nth-of-type(even) {
-  background-color: #f3f3f3;
-}
-.summary-table tbody tr:last-of-type {
-  border-bottom: 2px solid #d57928;
-}
-.summary-table tbody tr:hover {
-  background: #f1f1f1;
-}
-.text-right {
-  text-align: right;
-  font-family: monospace;
-}
-
-.header-type {
-  width: 10%;
-}
-
-.header-amount {
-  width: 12%;
-}
-
-.header-forecast {
-  width: 12%;
-}
-
-.header-balance {
-  width: 12%;
-}
-
-.rotated-text {
-  text-align: center;
-  background-color: #d57928;
-  color: #ffffff;
-  font-weight: bold;
-}
-
-.subtotal-header{
-  background-color: #ffffff !important;
-  text-align: right;
-  font-weight: bolder;
-}
-
-.subtotal-text{
-  font-weight: bolder;
-  background-color: #ffffff !important;
-}
-
-
 </style>
