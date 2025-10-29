@@ -21,6 +21,20 @@ const props = defineProps({
 
 const tableData = ref(null);
 
+// Detect mobile screen width
+import { onMounted, onUnmounted } from 'vue';
+const isMobile = ref(window.innerWidth <= 640);
+function handleResize() {
+  isMobile.value = window.innerWidth <= 640;
+}
+onMounted(() => {
+  window.addEventListener('resize', handleResize);
+  handleResize();
+});
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize);
+});
+
 
 const incomeData = computed(() => {
   const result = {
@@ -151,10 +165,14 @@ const getCategoryData = (categoryId, type) => {
         <!-- Income -->
         <template v-if="incomeData.Categories.length > 0">
           <tr v-for="(incomeCat, index) in incomeData.Categories" :key="`income-${incomeCat.id}`">
-            <td v-if="index === 0" class="type-cell" :rowspan="incomeData.Length">
+            <!-- Hide type-cell on mobile, but keep column alignment with empty td -->
+            <td v-if="index === 0" class="type-cell hide-on-mobile" :rowspan="incomeData.Length">
               <div class="truncate-text">Income</div>
             </td>
-            <td class="category-cell">
+            <td v-else-if="index !== 0" class="type-cell hide-on-mobile" style="display:none"></td>
+            <td v-if="index === 0" class="type-cell show-on-mobile" :rowspan="incomeData.Length" style="display:none"></td>
+            <td v-else-if="index !== 0" class="type-cell show-on-mobile" style="display:none"></td>
+            <td class="category-cell" :colspan="isMobile ? 2 : 1">
               <div class="truncate-text">{{ incomeCat.description }}</div>
             </td>
             <td class="text-right">{{ incomeCat.actualText }}</td>
@@ -172,10 +190,14 @@ const getCategoryData = (categoryId, type) => {
                   <!-- Recurring -->
                   <template v-if="recurringData.Categories.length > 0">
           <tr v-for="(recurCat, index) in recurringData.Categories" :key="`recurring-${recurCat.id}`">
-            <td v-if="index === 0" class="type-cell" :rowspan="recurringData.Length">
+            <!-- Hide type-cell on mobile, but keep column alignment with empty td -->
+            <td v-if="index === 0" class="type-cell hide-on-mobile" :rowspan="recurringData.Length">
               <div class="truncate-text">Recurring</div>
             </td>
-            <td class="category-cell">
+            <td v-else-if="index !== 0" class="type-cell hide-on-mobile" style="display:none"></td>
+            <td v-if="index === 0" class="type-cell show-on-mobile" :rowspan="recurringData.Length" style="display:none"></td>
+            <td v-else-if="index !== 0" class="type-cell show-on-mobile" style="display:none"></td>
+            <td class="category-cell" :colspan="isMobile ? 2 : 1">
               <div class="truncate-text">{{ recurCat.description }}</div>
             </td>
             <td class="text-right">{{ recurCat.actualText }}</td>
@@ -193,10 +215,14 @@ const getCategoryData = (categoryId, type) => {
                   <!-- Expense -->
                   <template v-if="expenseData.Categories.length > 0">
           <tr v-for="(expenseCat, index) in expenseData.Categories" :key="`expense-${expenseCat.id}`">
-            <td v-if="index === 0" class="type-cell" :rowspan="expenseData.Length">
+            <!-- Hide type-cell on mobile, but keep column alignment with empty td -->
+            <td v-if="index === 0" class="type-cell hide-on-mobile" :rowspan="expenseData.Length">
               <div class="truncate-text">Expense</div>
             </td>
-            <td class="category-cell">
+            <td v-else-if="index !== 0" class="type-cell hide-on-mobile" style="display:none"></td>
+            <td v-if="index === 0" class="type-cell show-on-mobile" :rowspan="expenseData.Length" style="display:none"></td>
+            <td v-else-if="index !== 0" class="type-cell show-on-mobile" style="display:none"></td>
+            <td class="category-cell" :colspan="isMobile ? 2 : 1">
               <div class="truncate-text">{{ expenseCat.description }}</div>
             </td>
             <td class="text-right">{{ expenseCat.actualText }}</td>
@@ -327,6 +353,12 @@ const getCategoryData = (categoryId, type) => {
             letter-spacing: 0.4px;
             text-transform: uppercase;
             font-size: 0.85rem;
+          }
+          /* Hide type-cell on mobile screens */
+          @media (max-width: 640px) {
+            .type-cell.hide-on-mobile {
+              display: none !important;
+            }
           }
           
           .subtotal-header {
