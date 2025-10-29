@@ -162,7 +162,7 @@ const getCategoryData = (categoryId, type) => {
             <td class="text-right">{{ incomeCat.balanceText }}</td>
           </tr>
           <tr class="summary-row">
-            <td colspan="2" class="subtotal-header">TOTAL:</td>
+            <td colspan="2" class="subtotal-header">Total Income:</td>
             <td class="text-right subtotal-text">{{ Number(incomeData.TotalActual).toLocaleString("en-US", numRender) }}</td>
             <td class="text-right subtotal-text">{{ Number(incomeData.TotalForecast).toLocaleString("en-US", numRender) }}</td>
             <td class="text-right subtotal-text">{{ Number(incomeData.TotalBalance).toLocaleString("en-US", numRender) }}</td>
@@ -183,7 +183,7 @@ const getCategoryData = (categoryId, type) => {
             <td class="text-right">{{ recurCat.balanceText }}</td>
           </tr>
           <tr class="summary-row">
-            <td colspan="2" class="subtotal-header">TOTAL:</td>
+            <td colspan="2" class="subtotal-header">Total Recurring:</td>
             <td class="text-right subtotal-text">{{ Number(recurringData.TotalActual).toLocaleString("en-US", numRender) }}</td>
             <td class="text-right subtotal-text">{{ Number(recurringData.TotalForecast).toLocaleString("en-US", numRender) }}</td>
             <td class="text-right subtotal-text">{{ Number(recurringData.TotalBalance).toLocaleString("en-US", numRender) }}</td>
@@ -204,7 +204,7 @@ const getCategoryData = (categoryId, type) => {
             <td class="text-right">{{ expenseCat.balanceText }}</td>
           </tr>
           <tr class="summary-row">
-            <td colspan="2" class="subtotal-header">TOTAL:</td>
+            <td colspan="2" class="subtotal-header">Total Expense:</td>
             <td class="text-right subtotal-text">{{ Number(expenseData.TotalActual).toLocaleString("en-US", numRender) }}</td>
             <td class="text-right subtotal-text">{{ Number(expenseData.TotalForecast).toLocaleString("en-US", numRender) }}</td>
             <td class="text-right subtotal-text">{{ Number(expenseData.TotalBalance).toLocaleString("en-US", numRender) }}</td>
