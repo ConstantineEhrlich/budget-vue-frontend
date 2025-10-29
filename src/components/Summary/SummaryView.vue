@@ -10,7 +10,7 @@ const user = useUserState();
 let loadFinished = ref(false);
 const loading = ref(false);
 
-const years = Array.from({length: 5}, (_, i) => new Date().getFullYear() - 4 + i);
+const years = Array.from({length: 5}, (_, i) => new Date().getFullYear() - 3 + i);
 const periods = [
   { text: 'January', value: 1 },
   { text: 'February', value: 2 },
