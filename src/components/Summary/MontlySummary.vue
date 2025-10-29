@@ -5,8 +5,8 @@ import {useUserState} from "@/components/User/userState";
 
 // State to control visibility of details rows
 const showDetails = ref({
-  income: true,
-  recurring: true,
+  income: false,
+  recurring: false,
   expense: true,
 });
 
@@ -166,7 +166,7 @@ const getCategoryData = (categoryId, type) => {
         <thead>
         <tr>
           <th class="header-type"></th>
-          <th class="header-category"></th>
+          <th class="header-category">Category</th>
           <th class="header-amount">Actual</th>
           <th class="header-forecast">Budget</th>
           <th class="header-balance">Balance</th>
@@ -195,7 +195,7 @@ const getCategoryData = (categoryId, type) => {
               <span class="toggle-arrow" :class="{open: showDetails.income}"></span>
             </td>
             <td class="subtotal-header">
-              <span v-if="!isMobile">TOTAL:</span>
+              <span v-if="!isMobile">Total Income:</span>
               <span v-else>Income:</span>
             </td>
             <td class="text-right subtotal-text">{{ Number(incomeData.TotalActual).toLocaleString("en-US", numRender) }}</td>
@@ -226,7 +226,7 @@ const getCategoryData = (categoryId, type) => {
                         <span class="toggle-arrow" :class="{open: showDetails.recurring}"></span>
                       </td>
                       <td class="subtotal-header">
-                        <span v-if="!isMobile">TOTAL:</span>
+                        <span v-if="!isMobile">Total Recurring:</span>
                         <span v-else>Recurring:</span>
                       </td>
                       <td class="text-right subtotal-text">{{ Number(recurringData.TotalActual).toLocaleString("en-US", numRender) }}</td>
@@ -257,7 +257,7 @@ const getCategoryData = (categoryId, type) => {
                         <span class="toggle-arrow" :class="{open: showDetails.expense}"></span>
                       </td>
                       <td class="subtotal-header">
-                        <span v-if="!isMobile">TOTAL:</span>
+                        <span v-if="!isMobile">Total Expense:</span>
                         <span v-else>Expense:</span>
                       </td>
                       <td class="text-right subtotal-text">{{ Number(expenseData.TotalActual).toLocaleString("en-US", numRender) }}</td>
